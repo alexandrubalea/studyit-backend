@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
@@ -16,7 +17,7 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 public class Student extends User {
 
-    private int department;
+    private int departmentId;
     private int yearOfStudy;
     private int studentGroup;
     private int studentSemigroup;

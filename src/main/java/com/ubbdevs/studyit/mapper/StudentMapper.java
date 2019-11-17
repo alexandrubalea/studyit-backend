@@ -21,7 +21,7 @@ public class StudentMapper {
                 .lastName(studentCreationDto.getLastName())
                 .password(studentCreationDto.getPassword())
                 .role(Role.STUDENT)
-                .department(groupEncoder.getDepartment(studentCreationDto.getGroup()))
+                .departmentId(groupEncoder.getDepartment(studentCreationDto.getGroup()))
                 .yearOfStudy(groupEncoder.getYear(studentCreationDto.getGroup()))
                 .studentGroup(groupEncoder.getGroup(studentCreationDto.getGroup()))
                 .studentSemigroup(groupEncoder.getSemiGroup(studentCreationDto.getGroup()))
@@ -35,7 +35,7 @@ public class StudentMapper {
                 .firstName(student.getFirstName())
                 .lastName(student.getLastName())
                 .role(student.getRole())
-                .group(groupEncoder.encodeGroup(student.getDepartment(), student.getYearOfStudy(),
+                .group(groupEncoder.encodeGroup(student.getDepartmentId(), student.getYearOfStudy(),
                         student.getStudentGroup(), student.getStudentSemigroup()))
                 .build();
     }
