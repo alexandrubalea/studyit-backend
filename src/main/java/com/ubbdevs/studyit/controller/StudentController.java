@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/students")
 @AllArgsConstructor
+@RequestMapping("/students")
 public class StudentController implements StudentControllerApi {
 
     private final StudentService studentService;

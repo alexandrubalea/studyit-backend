@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiResponses;
 @Api(description = "Student API", tags = {"Student"})
 public interface StudentControllerApi {
 
-    @ApiOperation(value = "Create a student account")
+    @ApiOperation(value = "Create a student account", response = StudentCreatedDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully created the account"),
             @ApiResponse(code = 400, message = "Invalid data"),

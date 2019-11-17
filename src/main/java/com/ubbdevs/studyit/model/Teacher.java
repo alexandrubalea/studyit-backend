@@ -20,5 +20,6 @@ public class Teacher extends User {
 
     @Enumerated(EnumType.STRING)
     private TeacherRank teacherRank;
+
     private String webpageUrl;
 }
