@@ -1,6 +1,7 @@
 package com.ubbdevs.studyit.service;
 
 import com.ubbdevs.studyit.dto.SubjectDto;
+import com.ubbdevs.studyit.exception.custom.ResourceNotFoundException;
 import com.ubbdevs.studyit.mapper.SubjectMapper;
 import com.ubbdevs.studyit.model.Subject;
 import com.ubbdevs.studyit.model.enums.SubjectType;
@@ -23,5 +24,12 @@ public class SubjectServiceImpl implements SubjectService {
         return subjectRepository.findAll().stream()
                 .map(subjectMapper::modelToDto)
                 .collect(Collectors.toList());
+    }
+
+    public Subject getSubjectById(final Long subjectId) {
+        return subjectRepository.findById(subjectId)
+                .orElseThrow(() -> {
+                    throw new ResourceNotFoundException("Subject with id " + subjectId + " not found");
+                });
     }
 }
