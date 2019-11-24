@@ -1,6 +1,8 @@
 package com.ubbdevs.studyit.exception;
 
 import com.ubbdevs.studyit.exception.custom.DuplicateResourceException;
+import com.ubbdevs.studyit.exception.custom.InvalidDataException;
+import com.ubbdevs.studyit.exception.custom.ResourceNotFoundException;
 import com.ubbdevs.studyit.exception.dto.ExceptionDto;
 import com.ubbdevs.studyit.exception.dto.InvalidDataExceptionDto;
 import com.ubbdevs.studyit.exception.model.ExceptionHolder;
@@ -21,9 +23,23 @@ import java.util.stream.Collectors;
 public class ExceptionHandlingController {
 
     @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionDto handle(final ResourceNotFoundException exception) {
+        log.error("ResourceNotFoundException: ", exception);
+        return createException(exception.getMessage());
+    }
+
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ExceptionDto handle(final DuplicateResourceException exception) {
         log.error("RestRuntimeException: ", exception);
+        return createException(exception.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDto handle(final InvalidDataException exception) {
+        log.error("InvalidDataException: ", exception);
         return createException(exception.getMessage());
     }
 

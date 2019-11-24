@@ -37,4 +37,3 @@ public class StudentCreationDto {
     @NotNull(message = "You must provide a group")
     private String group;
 }
-

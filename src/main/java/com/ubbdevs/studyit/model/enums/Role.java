@@ -1,4 +1,4 @@
-package com.ubbdevs.studyit.model;
+package com.ubbdevs.studyit.model.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ public enum Role {
 
     USER("User"),
     STUDENT("Student"),
-    TEACHER("Teacher");
+    PROFESSOR("Professor");
 
     private String name;
 }

@@ -1,8 +1,8 @@
 package com.ubbdevs.studyit.model;
 
+import com.ubbdevs.studyit.model.enums.Role;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import net.bytebuddy.implementation.bind.annotation.Super;
 
 import javax.persistence.*;
 

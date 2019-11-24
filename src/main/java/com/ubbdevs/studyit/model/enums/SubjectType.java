@@ -1,4 +1,4 @@
-package com.ubbdevs.studyit.model;
+package com.ubbdevs.studyit.model.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

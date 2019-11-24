@@ -3,7 +3,7 @@ package com.ubbdevs.studyit.mapper;
 import com.ubbdevs.studyit.dto.GroupEncoder;
 import com.ubbdevs.studyit.dto.StudentCreatedDto;
 import com.ubbdevs.studyit.dto.StudentCreationDto;
-import com.ubbdevs.studyit.model.Role;
+import com.ubbdevs.studyit.model.enums.Role;
 import com.ubbdevs.studyit.model.Student;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class StudentMapper {
                 .lastName(studentCreationDto.getLastName())
                 .password(studentCreationDto.getPassword())
                 .role(Role.STUDENT)
-                .departmentId(groupEncoder.getDepartment(studentCreationDto.getGroup()))
+                .departmentId(groupEncoder.getDepartmentCode(studentCreationDto.getGroup()))
                 .yearOfStudy(groupEncoder.getYear(studentCreationDto.getGroup()))
                 .studentGroup(groupEncoder.getGroup(studentCreationDto.getGroup()))
                 .studentSemigroup(groupEncoder.getSemiGroup(studentCreationDto.getGroup()))

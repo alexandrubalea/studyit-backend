@@ -1,12 +1,14 @@
 package com.ubbdevs.studyit.service;
 
 import com.ubbdevs.studyit.dto.DepartmentDto;
+import com.ubbdevs.studyit.dto.GroupEncoder;
+import com.ubbdevs.studyit.exception.custom.ResourceNotFoundException;
+import com.ubbdevs.studyit.mapper.DepartmentMapper;
 import com.ubbdevs.studyit.model.Department;
 import com.ubbdevs.studyit.repository.DepartmentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,41 +19,37 @@ import java.util.stream.IntStream;
 public class DepartmentServiceImpl implements DepartmentService {
 
     private final DepartmentRepository departmentRepository;
+    private final DepartmentMapper departmentMapper;
+    private final GroupEncoder groupEncoder;
 
-    public List<DepartmentDto> getDepartmentsAndYears() {
+    public Department getDepartmentByGroup(final int group) {
+        final int departmentCode = groupEncoder.getDepartmentCode(group);
+        final int year = groupEncoder.getYear(group);
+        final int groupNumber = groupEncoder.getGroup(group);
+        return departmentRepository.getDepartmentByCodeAndYearAndNumberOfGroupsGreaterThanEqual(
+                departmentCode, year, groupNumber)
+                .orElseThrow(() -> {
+                    throw new ResourceNotFoundException("Group " + group + " not found");
+                });
+    }
+
+    public List<DepartmentDto> getAllDepartmentsWithYears() {
         return departmentRepository.findAll().stream()
-                .map(this::createDepartmentsForAllYears)
-                .flatMap(Collection::stream)
+                .map(departmentMapper::modelToDto)
                 .collect(Collectors.toList());
     }
 
-    public List<String> getGroupsForDepartmentAndYear(long departmentId, int year) {
-        Department department = departmentRepository.getOne(departmentId);
-
+    public List<String> getGroupsForDepartmentAndYear(final long departmentId) {
+        final Department department = departmentRepository.findById(departmentId)
+                .orElseThrow(() -> {
+                    throw new ResourceNotFoundException("Department with id " + departmentId + " not found");
+                });
         return IntStream.range(1, department.getNumberOfGroups() + 1)
                 .mapToObj(i -> IntStream.of(1, 2)
-                        .mapToObj(semiGroup -> String.valueOf(departmentId) + year + i + "/" + semiGroup)
+                        .mapToObj(semiGroup -> String.valueOf(department.getCode()) + department.getYear() + i + "/"
+                                + semiGroup)
                 .collect(Collectors.toList()))
                 .flatMap(Collection::stream)
         .collect(Collectors.toList());
-    }
-
-    private List<DepartmentDto> createDepartmentsForAllYears(Department department){
-        List<DepartmentDto> departmentDtos = new ArrayList<>();
-        for(int i = 1; i<= department.getNumberOfYears(); i++ ){
-            departmentDtos.add(createDepartmentDto(department,i));
-        }
-//        return IntStream.range(1, department.getNoOfYears() + 1)
-//                .mapToObj(i -> createDepartmentDto(department, i))
-//                .collect(Collectors.toList());
-        return departmentDtos;
-    }
-
-    private DepartmentDto createDepartmentDto(Department department, int year){
-        return DepartmentDto.builder()
-                .id(department.getId())
-                .name(department.getName())
-                .year(year)
-                .build();
     }
 }

@@ -1,7 +1,7 @@
 package com.ubbdevs.studyit.service;
 
 import com.ubbdevs.studyit.exception.custom.DuplicateResourceException;
-import com.ubbdevs.studyit.model.Role;
+import com.ubbdevs.studyit.model.enums.Role;
 import com.ubbdevs.studyit.model.Student;
 import com.ubbdevs.studyit.repository.UserRepository;
 import lombok.AllArgsConstructor;

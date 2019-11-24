@@ -1,10 +1,6 @@
 package com.ubbdevs.studyit.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,14 +8,16 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Subject {
+public class Location {
 
     @Id
     private Long id;
 
     private String name;
-    private String description;
+    private String address;
+    private Double latitude;
+    private Double longitude;
 }

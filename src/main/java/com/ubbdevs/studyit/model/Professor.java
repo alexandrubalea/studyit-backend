@@ -1,5 +1,6 @@
 package com.ubbdevs.studyit.model;
 
+import com.ubbdevs.studyit.model.enums.ProfessorDegree;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +17,10 @@ import javax.persistence.Enumerated;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Teacher extends User {
+public class Professor extends User {
 
     @Enumerated(EnumType.STRING)
-    private TeacherRank teacherRank;
+    private ProfessorDegree professorDegree;
 
     private String webpageUrl;
 }
