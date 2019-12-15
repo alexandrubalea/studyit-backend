@@ -11,7 +11,7 @@ public interface UserService {
     Student getStudentById(Long studentId);
     Professor getProfessorById(Long professorId);
     ProfessorDto getProfessor();
-    void updateStudentInformation(StudentInformationDto studentInformationUpdateDto);
-    void updateProfessorInformation(ProfessorInformationDto professorInformationDto);
+    StudentDto updateStudentInformation(StudentInformationDto studentInformationUpdateDto);
+    ProfessorDto updateProfessorInformation(ProfessorInformationDto professorInformationDto);
     void deleteUserAccount();
 }

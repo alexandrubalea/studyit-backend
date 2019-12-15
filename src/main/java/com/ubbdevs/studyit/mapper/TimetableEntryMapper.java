@@ -1,6 +1,7 @@
 package com.ubbdevs.studyit.mapper;
 
 import com.ubbdevs.studyit.dto.TimetableEntryDto;
+import com.ubbdevs.studyit.model.Subject;
 import com.ubbdevs.studyit.model.TimetableEntry;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class TimetableEntryMapper {
 
+    private final SubjectMapper subjectMapper;
     private final ProfessorMapper professorMapper;
 
     public TimetableEntryDto modelToDto(final TimetableEntry timetableEntry) {
@@ -21,7 +23,7 @@ public class TimetableEntryMapper {
                 .room(timetableEntry.getRoom())
                 .formation(timetableEntry.getFormation())
                 .classType(timetableEntry.getClassType())
-                .subject(timetableEntry.getSubject())
+                .subjectDto(subjectMapper.modelToDto(timetableEntry.getSubject()))
                 .professorDto(professorMapper.modelToDto(timetableEntry.getProfessor()))
                 .build();
     }

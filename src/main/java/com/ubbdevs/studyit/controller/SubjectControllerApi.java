@@ -12,15 +12,11 @@ import java.util.List;
 @Api(description = "Subject API", tags = {"Subject"})
 public interface SubjectControllerApi {
 
-    @ApiOperation(value = "List of all subjects", response = SubjectDto.class)
+    @ApiOperation(value = "List of all subjects with name starting with given parameter. If no parameter is given " +
+            "returns all subjects", response = SubjectDto.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully returned the subjects, empty list if no subject was found")
-    })
-    List<SubjectDto> getAllSubjects();
-
-    @ApiOperation(value = "List of all subjects with name starting with", response = SubjectDto.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully returned the subjects, empty list if no subject was found")
+            @ApiResponse(code = 200, message = "Successfully returned the subjects, empty list if no subject that " +
+                    "starts with given parameter was found")
     })
     List<SubjectDto> getAllSubjectsStartingWith(String startsWith);
 }

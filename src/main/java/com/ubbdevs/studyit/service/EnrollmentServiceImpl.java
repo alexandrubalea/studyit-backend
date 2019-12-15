@@ -1,8 +1,10 @@
 package com.ubbdevs.studyit.service;
 
 import com.ubbdevs.studyit.dto.EnrollStudentDto;
+import com.ubbdevs.studyit.dto.EnrollmentDto;
 import com.ubbdevs.studyit.dto.SubjectDto;
 import com.ubbdevs.studyit.exception.custom.DuplicateResourceException;
+import com.ubbdevs.studyit.mapper.EnrollmentMapper;
 import com.ubbdevs.studyit.mapper.SubjectMapper;
 import com.ubbdevs.studyit.model.Enrollment;
 import com.ubbdevs.studyit.model.Student;
@@ -24,10 +26,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     private final UserService userService;
     private final SubjectService subjectService;
     private final SubjectMapper subjectMapper;
+    private final EnrollmentMapper enrollmentMapper;
     private final AuthorizationService authorizationService;
 
     @Transactional
-    public List<SubjectDto> enrollStudentAtSubject(EnrollStudentDto enrollStudentDto) {
+    public List<EnrollmentDto> enrollStudentAtSubject(EnrollStudentDto enrollStudentDto) {
         final Long studentId = authorizationService.getUserId();
         return enrollStudentDto.getSubjects()
                 .stream()
@@ -35,11 +38,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .collect(Collectors.toList());
     }
 
-    public List<SubjectDto> getAllStudentEnrollments() {
+    public List<EnrollmentDto> getAllStudentEnrollments() {
         final Long studentId = authorizationService.getUserId();
-        return enrollmentRepository.findByStudent_Id(studentId)
+        return userService.getStudentById(studentId).getEnrollments()
                 .stream()
-                .map(enrollment -> subjectMapper.modelToDto(enrollment.getSubject()))
+                .map(enrollmentMapper::modelToDto)
                 .collect(Collectors.toList());
     }
 
@@ -49,9 +52,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         enrollmentRepository.deleteByIdAndStudent_Id(enrollmentId, studentId);
     }
 
-    private SubjectDto checkIfStudentIsAlreadyEnrolledAndEnrollStudentIfNot(Long studentId, Long subjectId) {
+    private EnrollmentDto checkIfStudentIsAlreadyEnrolledAndEnrollStudentIfNot(Long studentId, Long subjectId) {
         checkIfEnrollmentForStudentAtSubjectExists(studentId, subjectId);
-        return subjectMapper.modelToDto(enrollStudentAtSubject(studentId, subjectId).getSubject());
+        return enrollmentMapper.modelToDto(enrollStudentAtSubject(studentId, subjectId));
     }
 
     private Enrollment enrollStudentAtSubject(final Long studentId, final Long subjectId) {

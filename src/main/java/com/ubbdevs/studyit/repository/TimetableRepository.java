@@ -11,4 +11,5 @@ import java.util.List;
 public interface TimetableRepository extends JpaRepository<TimetableEntry, Long> {
 
     List<TimetableEntry> getByFormationIn(Collection formations);
+    List<TimetableEntry> getByFormationInAndSubject_IdIn(Collection formation, Collection ids);
 }

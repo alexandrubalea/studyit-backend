@@ -1,7 +1,9 @@
 package com.ubbdevs.studyit.controller;
 
 import com.ubbdevs.studyit.dto.EnrollStudentDto;
+import com.ubbdevs.studyit.dto.EnrollmentDto;
 import com.ubbdevs.studyit.dto.SubjectDto;
+import com.ubbdevs.studyit.model.Enrollment;
 import com.ubbdevs.studyit.service.EnrollmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,13 +20,13 @@ public class EnrollmentController implements EnrollmentControllerApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public List<SubjectDto> enrollStudentAtSubject(final EnrollStudentDto enrollStudentDto) {
+    public List<EnrollmentDto> enrollStudentAtSubject(final EnrollStudentDto enrollStudentDto) {
         return enrollmentService.enrollStudentAtSubject(enrollStudentDto);
     }
 
     @GetMapping("/me")
     @ResponseStatus(HttpStatus.OK)
-    public List<SubjectDto> getStudentEnrollments() {
+    public List<EnrollmentDto> getStudentEnrollments() {
         return enrollmentService.getAllStudentEnrollments();
     }
 

@@ -1,28 +1,17 @@
 package com.ubbdevs.studyit.dto;
 
+import com.ubbdevs.studyit.model.Group;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GroupEncoder {
 
-    public int getDepartmentCode(final int group) {
-        return getDepartmentCode(Integer.toString(group));
-    }
-
     public int getDepartmentCode(final String group) {
         return Character.getNumericValue(group.charAt(0));
     }
 
-    public int getYear(final int group) {
-        return getYear(Integer.toString(group));
-    }
-
     public int getYear(final String group) {
         return Character.getNumericValue(group.charAt(1));
-    }
-
-    public int getGroup(final int group) {
-        return getGroup(Integer.toString(group));
     }
 
     public int getGroup(final String group) {
@@ -33,12 +22,17 @@ public class GroupEncoder {
         return Character.getNumericValue(group.charAt(4));
     }
 
-    public String encodeGroup(final int department, final int year, final int group, final int semiGroup) {
-        return String.valueOf(department) +
-                year +
-                group +
-                "/" +
-                semiGroup;
+    public String fromGroupWithoutSemigroup(final Group group) {
+        return String.valueOf(group.getDepartmentCode()) +
+                group.getYear() +
+                group.getGroupNumber();
     }
 
+    public String fromGroup(final Group group) {
+        return String.valueOf(group.getDepartmentCode()) +
+                group.getYear() +
+                group.getGroupNumber() +
+                "/" +
+                group.getSemiGroup();
+    }
 }

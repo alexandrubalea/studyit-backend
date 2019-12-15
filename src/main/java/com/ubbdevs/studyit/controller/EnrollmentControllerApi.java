@@ -1,7 +1,9 @@
 package com.ubbdevs.studyit.controller;
 
 import com.ubbdevs.studyit.dto.EnrollStudentDto;
+import com.ubbdevs.studyit.dto.EnrollmentDto;
 import com.ubbdevs.studyit.dto.SubjectDto;
+import com.ubbdevs.studyit.model.Enrollment;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -12,20 +14,20 @@ import java.util.List;
 @Api(description = "Enrollment API", tags = {"Enrollment"})
 public interface EnrollmentControllerApi {
 
-    @ApiOperation(value = "Enroll student at multiple subjects", response = SubjectDto.class)
+    @ApiOperation(value = "Enroll student at multiple subjects", response = EnrollmentDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully enrolled student at subjects. Returns list of subjects " +
                     "that student is enrolled at"),
     })
-    List<SubjectDto> enrollStudentAtSubject(EnrollStudentDto enrollStudentDto);
+    List<EnrollmentDto> enrollStudentAtSubject(EnrollStudentDto enrollStudentDto);
 
-    @ApiOperation(value = "Get a list of your enrollments", response = SubjectDto.class)
+    @ApiOperation(value = "Get a list of your enrollments", response = EnrollmentDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Returns a list of your enrollments"),
     })
-    List<SubjectDto> getStudentEnrollments();
+    List<EnrollmentDto> getStudentEnrollments();
 
-    @ApiOperation(value = "Delete an enrollment", response = SubjectDto.class)
+    @ApiOperation(value = "Delete an enrollment")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Returns a list of your enrollments"),
     })

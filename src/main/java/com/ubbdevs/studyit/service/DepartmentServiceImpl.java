@@ -5,10 +5,12 @@ import com.ubbdevs.studyit.dto.GroupEncoder;
 import com.ubbdevs.studyit.exception.custom.ResourceNotFoundException;
 import com.ubbdevs.studyit.mapper.DepartmentMapper;
 import com.ubbdevs.studyit.model.Department;
+import com.ubbdevs.studyit.model.Group;
 import com.ubbdevs.studyit.repository.DepartmentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,10 +24,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     private final DepartmentMapper departmentMapper;
     private final GroupEncoder groupEncoder;
 
-    public Department getDepartmentByGroup(final int group) {
-        final int departmentCode = groupEncoder.getDepartmentCode(group);
-        final int year = groupEncoder.getYear(group);
-        final int groupNumber = groupEncoder.getGroup(group);
+    public Department getDepartmentByGroup(final Group group) {
+        final int departmentCode = group.getDepartmentCode();
+        final int year = group.getYear();
+        final int groupNumber = group.getGroupNumber();
         return departmentRepository.getDepartmentByCodeAndYearAndNumberOfGroupsGreaterThanEqual(
                 departmentCode, year, groupNumber)
                 .orElseThrow(() -> {
@@ -51,5 +53,11 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .collect(Collectors.toList()))
                 .flatMap(Collection::stream)
         .collect(Collectors.toList());
+    }
+
+    public List<String> getFormationFromGroup(Group group) {
+        final Department department = getDepartmentByGroup(group);
+        return Arrays.asList(department.getAbbreviation(), groupEncoder.fromGroup(group),
+                groupEncoder.fromGroupWithoutSemigroup(group));
     }
 }

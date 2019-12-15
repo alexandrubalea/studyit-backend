@@ -26,6 +26,6 @@ public class TimetableEntryDto {
     private Room room;
     private String formation;
     private ClassType classType;
-    private Subject subject;
+    private SubjectDto subjectDto;
     private ProfessorDto professorDto;
 }

@@ -1,10 +1,9 @@
 package com.ubbdevs.studyit.mapper;
 
-import com.ubbdevs.studyit.dto.GroupEncoder;
-import com.ubbdevs.studyit.dto.StudentDto;
 import com.ubbdevs.studyit.dto.StudentCreationDto;
-import com.ubbdevs.studyit.model.enums.Role;
+import com.ubbdevs.studyit.dto.StudentDto;
 import com.ubbdevs.studyit.model.Student;
+import com.ubbdevs.studyit.model.enums.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class StudentMapper {
 
-    private final GroupEncoder groupEncoder;
+    private final GroupMapper groupMapper;
 
     public Student dtoToModel(final StudentCreationDto studentCreationDto) {
         return Student.builder()
@@ -21,10 +20,7 @@ public class StudentMapper {
                 .lastName(studentCreationDto.getLastName())
                 .password(studentCreationDto.getPassword())
                 .role(Role.STUDENT)
-                .department(groupEncoder.getDepartmentCode(studentCreationDto.getGroup()))
-                .yearOfStudy(groupEncoder.getYear(studentCreationDto.getGroup()))
-                .studentGroup(groupEncoder.getGroup(studentCreationDto.getGroup()))
-                .studentSemigroup(groupEncoder.getSemiGroup(studentCreationDto.getGroup()))
+                .group(groupMapper.dtoToModel(studentCreationDto.getGroup()))
                 .build();
     }
 
@@ -35,8 +31,7 @@ public class StudentMapper {
                 .firstName(student.getFirstName())
                 .lastName(student.getLastName())
                 .role(student.getRole())
-                .group(groupEncoder.encodeGroup(student.getDepartment(), student.getYearOfStudy(),
-                        student.getStudentGroup(), student.getStudentSemigroup()))
+                .group(groupMapper.modelToDto(student.getGroup()))
                 .build();
     }
 }

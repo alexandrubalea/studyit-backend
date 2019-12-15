@@ -3,6 +3,7 @@ package com.ubbdevs.studyit.service;
 import com.ubbdevs.studyit.dto.*;
 import com.ubbdevs.studyit.exception.custom.DuplicateResourceException;
 import com.ubbdevs.studyit.exception.custom.ResourceNotFoundException;
+import com.ubbdevs.studyit.mapper.GroupMapper;
 import com.ubbdevs.studyit.mapper.ProfessorMapper;
 import com.ubbdevs.studyit.mapper.StudentMapper;
 import com.ubbdevs.studyit.model.Professor;
@@ -26,8 +27,8 @@ public class UserServiceImpl implements UserService {
 
     private final StudentMapper studentMapper;
     private final ProfessorMapper professorMapper;
+    private final GroupMapper groupMapper;
 
-    private final GroupEncoder groupEncoder;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public StudentDto createStudent(final String clientId, final StudentCreationDto studentCreationDto) {
@@ -54,25 +55,21 @@ public class UserServiceImpl implements UserService {
         return (Professor) findUserById(professorId);
     }
 
-    public void updateStudentInformation(final StudentInformationDto studentInformationDto) {
+    public StudentDto updateStudentInformation(final StudentInformationDto studentInformationDto) {
         final long studentId = authorizationService.getUserId();
         final Student student = getStudentById(studentId);
         student.setFirstName(studentInformationDto.getFirstName());
         student.setLastName(studentInformationDto.getLastName());
-        student.setDepartment(groupEncoder.getDepartmentCode(studentInformationDto.getGroup()));
-        student.setYearOfStudy(groupEncoder.getYear(studentInformationDto.getGroup()));
-        student.setStudentGroup(groupEncoder.getGroup(studentInformationDto.getGroup()));
-        student.setStudentSemigroup(groupEncoder.getSemiGroup(studentInformationDto.getGroup()));
-        userRepository.save(student);
+        student.setGroup(groupMapper.dtoToModel(studentInformationDto.getGroup()));
+        return studentMapper.modelToDto(userRepository.save(student));
     }
 
-    public void updateProfessorInformation(final ProfessorInformationDto professorInformationDto) {
+    public ProfessorDto updateProfessorInformation(final ProfessorInformationDto professorInformationDto) {
         final long professorId = authorizationService.getUserId();
         final Professor professor = getProfessorById(professorId);
         professor.setEmail(professorInformationDto.getEmail());
-
         professor.setWebpageUrl(professorInformationDto.getWebpageUrl());
-        userRepository.save(professor);
+        return professorMapper.modelToDto(userRepository.save(professor));
     }
 
     public void deleteUserAccount() {

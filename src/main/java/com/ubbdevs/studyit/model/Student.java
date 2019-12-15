@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -19,10 +20,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Student extends User {
 
-    private int department;
-    private int yearOfStudy;
-    private int studentGroup;
-    private int studentSemigroup;
+    @Embedded
+    private Group group;
 
     @OneToMany(mappedBy = "student")
     private List<Enrollment> enrollments;

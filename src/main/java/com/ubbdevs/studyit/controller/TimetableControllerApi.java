@@ -2,6 +2,7 @@ package com.ubbdevs.studyit.controller;
 
 import com.ubbdevs.studyit.dto.TimetableEntryDto;
 import com.ubbdevs.studyit.model.TimetableEntry;
+import com.ubbdevs.studyit.model.enums.Day;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -17,5 +18,14 @@ public interface TimetableControllerApi {
             @ApiResponse(code = 200, message = "Successfully retrieved timetable"),
             @ApiResponse(code = 400, message = "Invalid data")
     })
-    List<TimetableEntryDto> getTimetableForGroupAndSemigroup(Integer group, Integer semigroup);
+    List<TimetableEntryDto> getTimetableForGroup(String group);
+
+    @ApiOperation(value = "Get the timetable for a student. Day is optional, if not given you'll get the timetable " +
+            "for all week")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved timetable")
+    })
+    List<TimetableEntryDto> getStudentTimetableForDay(Day day);
+
+    List<TimetableEntryDto> getProfessorTimetable();
 }

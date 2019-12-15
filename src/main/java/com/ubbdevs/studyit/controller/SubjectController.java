@@ -18,12 +18,7 @@ public class SubjectController implements SubjectControllerApi {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<SubjectDto> getAllSubjects() {
-        return subjectService.getAllSubjects();
-    }
-
-    @GetMapping("{startsWith}")
-    public List<SubjectDto> getAllSubjectsStartingWith(@PathVariable final String startsWith) {
+    public List<SubjectDto> getAllSubjectsStartingWith(@RequestParam(required = false) final String startsWith) {
         return subjectService.getAllSubjectsStartingWith(startsWith);
     }
 }
