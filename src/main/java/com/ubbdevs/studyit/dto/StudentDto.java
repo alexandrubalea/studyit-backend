@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentCreatedDto {
+public class StudentDto {
 
     private Long id;
     private String email;

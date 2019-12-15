@@ -1,7 +1,7 @@
 package com.ubbdevs.studyit.mapper;
 
 import com.ubbdevs.studyit.dto.GroupEncoder;
-import com.ubbdevs.studyit.dto.StudentCreatedDto;
+import com.ubbdevs.studyit.dto.StudentDto;
 import com.ubbdevs.studyit.dto.StudentCreationDto;
 import com.ubbdevs.studyit.model.enums.Role;
 import com.ubbdevs.studyit.model.Student;
@@ -21,21 +21,21 @@ public class StudentMapper {
                 .lastName(studentCreationDto.getLastName())
                 .password(studentCreationDto.getPassword())
                 .role(Role.STUDENT)
-                .departmentId(groupEncoder.getDepartmentCode(studentCreationDto.getGroup()))
+                .department(groupEncoder.getDepartmentCode(studentCreationDto.getGroup()))
                 .yearOfStudy(groupEncoder.getYear(studentCreationDto.getGroup()))
                 .studentGroup(groupEncoder.getGroup(studentCreationDto.getGroup()))
                 .studentSemigroup(groupEncoder.getSemiGroup(studentCreationDto.getGroup()))
                 .build();
     }
 
-    public StudentCreatedDto modelToDto(final Student student) {
-        return StudentCreatedDto.builder()
+    public StudentDto modelToDto(final Student student) {
+        return StudentDto.builder()
                 .id(student.getId())
                 .email(student.getEmail())
                 .firstName(student.getFirstName())
                 .lastName(student.getLastName())
                 .role(student.getRole())
-                .group(groupEncoder.encodeGroup(student.getDepartmentId(), student.getYearOfStudy(),
+                .group(groupEncoder.encodeGroup(student.getDepartment(), student.getYearOfStudy(),
                         student.getStudentGroup(), student.getStudentSemigroup()))
                 .build();
     }

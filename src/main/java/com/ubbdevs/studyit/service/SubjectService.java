@@ -9,5 +9,6 @@ import java.util.List;
 public interface SubjectService {
 
     List<SubjectDto> getAllSubjects();
+    List<SubjectDto> getAllSubjectsStartingWith(String startsWith);
     Subject getSubjectById(Long subjectId);
 }

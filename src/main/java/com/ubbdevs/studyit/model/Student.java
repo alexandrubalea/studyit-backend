@@ -8,6 +8,8 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,8 +19,11 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 public class Student extends User {
 
-    private int departmentId;
+    private int department;
     private int yearOfStudy;
     private int studentGroup;
     private int studentSemigroup;
+
+    @OneToMany(mappedBy = "student")
+    private List<Enrollment> enrollments;
 }

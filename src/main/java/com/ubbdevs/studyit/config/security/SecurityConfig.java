@@ -2,24 +2,53 @@ package com.ubbdevs.studyit.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableResourceServer
+public class SecurityConfig extends WebSecurityConfigurerAdapter implements ResourceServerConfigurer {
+
+    private static final String RESOURCE_ID = "resource_id";
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    public void configure(final ResourceServerSecurityConfigurer resources) {
+        resources
+                .resourceId(RESOURCE_ID)
+                .stateless(false);
+    }
+
+    @Override
+    public void configure(final HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests().anyRequest().permitAll();
+                .authorizeRequests()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/v2/api-docs**").permitAll()
+                .antMatchers("/swagger.json").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/semester/completion-percentage").permitAll()
+                .antMatchers(HttpMethod.POST, "/users/student").permitAll()
+                .antMatchers("/users/student/**").hasAuthority("STUDENT")
+                .antMatchers("/users/professor/**").hasAuthority("PROFESSOR")
+                .antMatchers("/enrollments/**").hasAuthority("STUDENT")
+                .and()
+                .authorizeRequests()
+                .anyRequest().authenticated();
     }
 }

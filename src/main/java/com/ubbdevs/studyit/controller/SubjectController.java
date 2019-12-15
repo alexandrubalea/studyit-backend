@@ -21,4 +21,9 @@ public class SubjectController implements SubjectControllerApi {
     public List<SubjectDto> getAllSubjects() {
         return subjectService.getAllSubjects();
     }
+
+    @GetMapping("{startsWith}")
+    public List<SubjectDto> getAllSubjectsStartingWith(@PathVariable final String startsWith) {
+        return subjectService.getAllSubjectsStartingWith(startsWith);
+    }
 }

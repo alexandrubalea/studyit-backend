@@ -13,26 +13,17 @@ import javax.validation.constraints.Size;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentCreationDto {
-
-    @Pattern(regexp = "[a-z]{4}[0-9]{4}@scs.ubbcluj.ro", message = "Invalid email address. Please use your scs email " +
-            "address")
-    @NotNull(message = "You must provide an email address")
-    private String email;
+public class StudentInformationDto {
 
     // TODO: pattern to capitalize the first letter of first name
-    @NotNull(message = "You must provide a first name")
     @Size(min=4, max=32, message = "Invalid firstName size")
+    @NotNull(message = "You must provide a first name")
     private String firstName;
 
     // TODO: pattern to capitalize the first letter of last name
-    @NotNull(message = "You must provide a last name")
     @Size(min=4, max=32, message = "Invalid lastName size")
+    @NotNull(message = "You must provide a last name")
     private String lastName;
-
-    // TODO: pattern to limit password length and to force user to also use capital letters and numbers
-    @NotNull(message = "You must provide a password")
-    private String password;
 
     // pay attention to regex group digit [1-7]
     @Pattern(regexp = "[1-9][1-3][1-7]/[1-2]", message = "Invalid group. The group should match the following pattern: " +

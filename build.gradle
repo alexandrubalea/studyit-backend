@@ -25,6 +25,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	implementation "org.apache.commons:commons-collections4:${apacheCommonsCollectionsVersion}"
+	implementation "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOAuth2Version}"
+	implementation "org.springframework.security:spring-security-jwt:${springSecurityJWTVersion}"
 	implementation 'mysql:mysql-connector-java'
 	implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
 	implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"

@@ -19,9 +19,16 @@ public class SubjectServiceImpl implements SubjectService {
     private final SubjectRepository subjectRepository;
     private final SubjectMapper subjectMapper;
 
-    @Override
+
+
     public List<SubjectDto> getAllSubjects() {
         return subjectRepository.findAll().stream()
+                .map(subjectMapper::modelToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<SubjectDto> getAllSubjectsStartingWith(final String startsWith) {
+        return subjectRepository.getAllByNameStartingWith(startsWith).stream()
                 .map(subjectMapper::modelToDto)
                 .collect(Collectors.toList());
     }
