@@ -35,6 +35,12 @@ public class TimetableController implements TimetableControllerApi {
         return null;
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<TimetableEntryDto> getTimetableForProfessor(@RequestParam final Long professorID) {
+        return timetableService.getTimetableForProfessor(professorID);
+    }
+
 
     @GetMapping("/subject/{subjectId}/info")
     public SubjectInformationDto getSubjectInformation(@PathVariable Long subjectId) {

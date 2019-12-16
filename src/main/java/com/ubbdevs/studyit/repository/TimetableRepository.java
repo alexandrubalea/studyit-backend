@@ -23,4 +23,5 @@ public interface TimetableRepository extends JpaRepository<TimetableEntry, Long>
     @Query(value = "select distinct new com.ubbdevs.studyit.model.SubjectAndClassType(t.subject, t.classType) " +
             "from TimetableEntry  t where t.professor = ?1")
     List<SubjectAndClassType> getDistinctSubjectsForProfessorId(Professor professor);
+    List<TimetableEntry> selectDistinctByProfessorId(Collection subjects);
 }

@@ -9,6 +9,7 @@ import com.ubbdevs.studyit.mapper.TimetableEntryMapper;
 import com.ubbdevs.studyit.model.*;
 import com.ubbdevs.studyit.model.enums.ClassType;
 import com.ubbdevs.studyit.model.enums.Day;
+import com.ubbdevs.studyit.repository.SubjectRepository;
 import com.ubbdevs.studyit.repository.TimetableRepository;
 import com.ubbdevs.studyit.service.oauth.AuthorizationService;
 import com.ubbdevs.studyit.validator.TimetableValidator;
@@ -37,6 +38,8 @@ public class TimetableServiceImpl implements TimetableService {
     private final SubjectMapper subjectMapper;
 
     private final TimetableValidator timetableValidator;
+    private final TimetableEntryMapper timetableEntryMapper;
+    private final SubjectService subjectService;
 
     @Override
     public SubjectInformationDto getSubjectInformation(Long subjectId) {
@@ -126,5 +129,13 @@ public class TimetableServiceImpl implements TimetableService {
 
     private List<TimetableEntry> getStudentDailyTimetable(final List<String> formation, final Collection subjects) {
         return timetableRepository.getByFormationInAndSubject_IdIn(formation, subjects);
+    }
+
+    @Override
+    public List<TimetableEntryDto> getTimetableForProfessor(Long professorID) {
+        return timetableRepository.selectDistinctByProfessorId(Arrays.asList(subjectService.getAllSubjects()))
+                .stream()
+                .map(timetableEntryMapper::modelToDto)
+                .collect(Collectors.toList());
     }
 }

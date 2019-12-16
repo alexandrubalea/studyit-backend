@@ -17,6 +17,9 @@ public interface TimetableService {
     List<TimetableEntryDto> getTimetableForGroup(String group);
 
     List<TimetableEntryDto> getStudentTimetableBasedOnDay(final Day day);
+    List<TimetableEntryDto> getTimetableForGroupAndSemigroup(Integer group, Integer semigroup);
+
+    List<TimetableEntryDto> getTimetableForProfessor(Long professorID);
 
     List<SubjectAndClassTypeDto> getAllSubjectsForProfessor(Professor professor);
 }
