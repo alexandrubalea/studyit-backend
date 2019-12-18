@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiResponses;
 
 import java.util.List;
 
-@Api(description = "Department API", tags = {"Department"})
+@Api(description = "Departments API", tags = {"Departments"})
 public interface DepartmentControllerApi {
 
     @ApiOperation(value = "Get a list of all departments and all years", response = DepartmentDto.class)

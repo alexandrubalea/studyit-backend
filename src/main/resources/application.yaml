@@ -17,3 +17,4 @@ server:
 swagger.oauth.endpoint: http://localhost:8080/studyit/api/v1/users/token
 password.token.live.time.hours: 48
 
+

@@ -32,7 +32,7 @@ import java.util.Collections;
 @EnableSwagger2
 public class SwaggerConfig implements WebMvcConfigurer {
 
-    public static final String CUSTOM_OAUTH_LOGIN_CONTROLLER = "User";
+    public static final String CUSTOM_OAUTH_LOGIN_CONTROLLER = "Users";
     private static final String SPRING_OAUTH = "SPRING_OAUTH";
     private final String swaggerOauthEndpoint;
 
@@ -56,7 +56,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .directModelSubstitute(LocalDate.class, String.class)
                 .additionalModels(typeResolver.resolve(AuthenticationDto.class))
                 .additionalModels(typeResolver.resolve(ExceptionDto.class))
-                .tags(new Tag(CUSTOM_OAUTH_LOGIN_CONTROLLER, "User Controller"))
+                .tags(new Tag(CUSTOM_OAUTH_LOGIN_CONTROLLER, "Users API"))
                 .apiInfo(apiInfo())
                 .securitySchemes(Collections.singletonList(securityScheme()))
                 .securityContexts(Collections.singletonList(securityContext));

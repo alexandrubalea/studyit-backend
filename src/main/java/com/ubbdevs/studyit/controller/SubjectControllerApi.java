@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiResponses;
 
 import java.util.List;
 
-@Api(description = "Subject API", tags = {"Subject"})
+@Api(description = "Subjects API", tags = {"Subjects"})
 public interface SubjectControllerApi {
 
     @ApiOperation(value = "List of all subjects with name starting with given parameter. If no parameter is given " +

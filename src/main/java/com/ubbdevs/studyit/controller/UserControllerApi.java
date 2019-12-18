@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(description = "User API", tags = {"User"})
+@Api(description = "Users API", tags = {"Users"})
 public interface UserControllerApi {
 
     @ApiOperation(value = "Create a student account", response = StudentDto.class)
