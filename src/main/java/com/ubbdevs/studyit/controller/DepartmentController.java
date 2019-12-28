@@ -17,13 +17,13 @@ public class DepartmentController implements DepartmentControllerApi{
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<DepartmentDto> getDepartmentsAndYears() {
-        return departmentService.getAllDepartmentsWithYears();
+    public List<DepartmentDto> getDepartmentsAndYears(@RequestParam final String clientId) {
+        return departmentService.getAllDepartmentsWithYears(clientId);
     }
 
     @GetMapping("/{departmentId}/groups")
     @ResponseStatus(HttpStatus.OK)
-    public List<String> getGroupsForDepartmentAndYear(@PathVariable long departmentId) {
-        return departmentService.getGroupsForDepartmentAndYear(departmentId);
+    public List<String> getGroupsForDepartmentAndYear(@RequestParam final String clientId, @PathVariable Long departmentId) {
+        return departmentService.getGroupsForDepartmentAndYear(clientId, departmentId);
     }
 }

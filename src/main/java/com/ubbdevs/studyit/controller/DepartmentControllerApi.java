@@ -13,12 +13,12 @@ public interface DepartmentControllerApi {
 
     @ApiOperation(value = "Get a list of all departments and all years", response = DepartmentDto.class)
     @ApiResponse(code = 200, message = "Successfully return all departments")
-    List<DepartmentDto> getDepartmentsAndYears();
+    List<DepartmentDto> getDepartmentsAndYears(String clientId);
 
     @ApiOperation(value = "Get a list of all groups for a department and year", response = String.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully return all groups for department"),
             @ApiResponse(code = 404, message = "Department not found")
     })
-    List<String> getGroupsForDepartmentAndYear(long departmentId);
+    List<String> getGroupsForDepartmentAndYear(String clientId, Long departmentId);
 }

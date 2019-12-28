@@ -19,8 +19,6 @@ public class NewsCreationDto {
     @NotNull(message = "You need to add a content")
     private String content;
 
+    @NotNull(message = "You must enter a subjectId")
     private Long subjectId;
-
-    private Long professorId;
-    //TODO: date and subject
 }

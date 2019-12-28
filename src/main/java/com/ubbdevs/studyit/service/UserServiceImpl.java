@@ -3,6 +3,7 @@ package com.ubbdevs.studyit.service;
 import com.ubbdevs.studyit.dto.*;
 import com.ubbdevs.studyit.exception.custom.DuplicateResourceException;
 import com.ubbdevs.studyit.exception.custom.ResourceNotFoundException;
+import com.ubbdevs.studyit.mapper.AuthenticationMapper;
 import com.ubbdevs.studyit.mapper.GroupMapper;
 import com.ubbdevs.studyit.mapper.ProfessorMapper;
 import com.ubbdevs.studyit.mapper.StudentMapper;
@@ -12,8 +13,10 @@ import com.ubbdevs.studyit.model.User;
 import com.ubbdevs.studyit.model.enums.Role;
 import com.ubbdevs.studyit.repository.UserRepository;
 import com.ubbdevs.studyit.service.oauth.AuthorizationService;
+import com.ubbdevs.studyit.service.oauth.OauthAdaptorService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,19 +25,27 @@ public class UserServiceImpl implements UserService {
 
     private final ClientDetailsAdaptorService clientDetailsAdaptorService;
     private final AuthorizationService authorizationService;
+    private final OauthAdaptorService oauthAdaptorService;
 
     private final UserRepository userRepository;
 
+    private final AuthenticationMapper authenticationMapper;
     private final StudentMapper studentMapper;
     private final ProfessorMapper professorMapper;
     private final GroupMapper groupMapper;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public StudentDto createStudent(final String clientId, final StudentCreationDto studentCreationDto) {
+    public AuthenticationDto createStudent(final String clientId, final StudentCreationDto studentCreationDto) {
         clientDetailsAdaptorService.validateClientId(clientId);
         final Student student = studentMapper.dtoToModel(studentCreationDto);
-        return studentMapper.modelToDto(createStudent(student));
+        final Student createdStudent = checkIfEmailIsAvailableAndCreateStudent(student);
+        final OAuth2AccessToken accessToken = oauthAdaptorService.loginUser(
+                clientId,
+                studentCreationDto.getEmail(),
+                studentCreationDto.getPassword()
+        );
+        return authenticationMapper.modelToDto(createdStudent.getId(), accessToken);
     }
 
     public StudentDto getStudent() {
@@ -77,7 +88,7 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
     }
 
-    private Student createStudent(final Student student) {
+    private Student checkIfEmailIsAvailableAndCreateStudent(final Student student) {
         checkForUserWithEmail(student.getEmail());
         student.setPassword(bCryptPasswordEncoder.encode(student.getPassword()));
         student.setRole(Role.STUDENT);

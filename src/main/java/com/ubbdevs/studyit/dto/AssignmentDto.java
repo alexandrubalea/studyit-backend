@@ -1,21 +1,20 @@
 package com.ubbdevs.studyit.dto;
 
-import com.ubbdevs.studyit.model.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewsDto {
+public class AssignmentDto {
     private Long id;
-    private String title;
+    private Long professorId;
+    private Long subjectId;
     private String content;
-    private LocalDateTime creationDate;
-    private SubjectDto subjectDto;
+    private LocalDate deadline;
 }

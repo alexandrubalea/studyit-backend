@@ -12,13 +12,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class News {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
     private String content;
-    private LocalDateTime dateTime;
+    private LocalDateTime creationDate;
 
     @ManyToOne
     private Subject subject;

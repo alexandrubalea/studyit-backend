@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Component
 @AllArgsConstructor
@@ -20,7 +19,7 @@ public class NewsMapper {
                 .id(news.getId())
                 .title(news.getTitle())
                 .content(news.getContent())
-                .dateTime(news.getDateTime())
+                .creationDate(news.getCreationDate())
                 .subjectDto(subjectMapper.modelToDto(news.getSubject()))
                 .build();
     }
@@ -29,8 +28,7 @@ public class NewsMapper {
         return News.builder()
                 .title(newsCreationDto.getTitle())
                 .content(newsCreationDto.getContent())
-                .dateTime(LocalDateTime.now())
+                .creationDate(LocalDateTime.now())
                 .build();
-        //TODO: subject
     }
 }

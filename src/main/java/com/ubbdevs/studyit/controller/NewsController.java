@@ -13,16 +13,17 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/news")
 public class NewsController implements NewsControllerApi {
+
     private final NewsService newsService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public NewsDto createNews(@RequestBody NewsCreationDto newsCreationDto) {
-        return newsService.createNews(newsCreationDto);
+    public NewsDto postNews(@RequestBody NewsCreationDto newsCreationDto) {
+        return newsService.postNews(newsCreationDto);
     }
 
     @GetMapping
-    public List<NewsDto> getNewsBySubject(@RequestParam Long subjectId) {
-        return newsService.getNewsBySubject(subjectId);
+    public List<NewsDto> getNewsBySubject(@RequestParam(required = false) Long subjectId) {
+        return newsService.getNewsBySubjectOrAllNewsIfNoSubject(subjectId);
     }
 }

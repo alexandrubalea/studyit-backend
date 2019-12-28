@@ -15,7 +15,7 @@ public interface UserControllerApi {
             @ApiResponse(code = 400, message = "Invalid data"),
             @ApiResponse(code = 409, message = "Email address already registered")
     })
-    StudentDto createStudent(String clientId, StudentCreationDto studentCreationDto);
+    AuthenticationDto createStudent(String clientId, StudentCreationDto studentCreationDto);
 
     @ApiOperation(value = "Get your student account information", response = StudentDto.class)
     @ApiResponses(value = {

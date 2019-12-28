@@ -20,6 +20,7 @@ import java.util.stream.IntStream;
 @AllArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
 
+    private final ClientDetailsAdaptorService clientDetailsAdaptorService;
     private final DepartmentRepository departmentRepository;
     private final DepartmentMapper departmentMapper;
     private final GroupEncoder groupEncoder;
@@ -35,13 +36,15 @@ public class DepartmentServiceImpl implements DepartmentService {
                 });
     }
 
-    public List<DepartmentDto> getAllDepartmentsWithYears() {
+    public List<DepartmentDto> getAllDepartmentsWithYears(final String clientId) {
+        clientDetailsAdaptorService.validateClientId(clientId);
         return departmentRepository.findAll().stream()
                 .map(departmentMapper::modelToDto)
                 .collect(Collectors.toList());
     }
 
-    public List<String> getGroupsForDepartmentAndYear(final long departmentId) {
+    public List<String> getGroupsForDepartmentAndYear(final String clientId, final Long departmentId) {
+        clientDetailsAdaptorService.validateClientId(clientId);
         final Department department = departmentRepository.findById(departmentId)
                 .orElseThrow(() -> {
                     throw new ResourceNotFoundException("Department with id " + departmentId + " not found");

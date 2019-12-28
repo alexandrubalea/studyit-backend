@@ -126,6 +126,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 final Principal user = (Principal) authentication.getUserAuthentication().getPrincipal();
                 final Map<String, Object> additionalInfo = new HashMap<>();
                 additionalInfo.put("user_id", user.getUser().getId());
+                additionalInfo.put("user_role", user.getUser().getRole().toString());
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
                 return super.enhance(accessToken, authentication);
             }

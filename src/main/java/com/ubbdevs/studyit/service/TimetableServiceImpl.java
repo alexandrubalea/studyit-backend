@@ -1,6 +1,7 @@
 package com.ubbdevs.studyit.service;
 
 import com.ubbdevs.studyit.dto.TimetableEntryDto;
+import com.ubbdevs.studyit.exception.custom.UnauthorizedException;
 import com.ubbdevs.studyit.mapper.GroupMapper;
 import com.ubbdevs.studyit.mapper.TimetableEntryMapper;
 import com.ubbdevs.studyit.model.Department;
@@ -33,6 +34,15 @@ public class TimetableServiceImpl implements TimetableService {
     private final TimetableEntryMapper timetableEntryMapper;
 
     private final TimetableValidator timetableValidator;
+
+    @Override
+    public void checkIfProfessorTeacherSubject(Long professorId, Long subjectId) {
+        timetableRepository.findFirstByProfessor_IdAndSubject_Id(professorId, subjectId)
+                .orElseThrow(() -> {
+                    throw new UnauthorizedException("Professor with id " + professorId + " does not teach subject " +
+                            "with id " + subjectId);
+                });
+    }
 
     public List<TimetableEntryDto> getTimetableForGroup(final String group) {
         timetableValidator.validateGroup(group);

@@ -19,7 +19,7 @@ public class UserController implements UserControllerApi {
 
     @PostMapping("/student")
     @ResponseStatus(HttpStatus.CREATED)
-    public StudentDto createStudent(final String clientId,
+    public AuthenticationDto createStudent(final String clientId,
                                     @Valid @RequestBody final StudentCreationDto studentCreationDto) {
         return userService.createStudent(clientId, studentCreationDto);
     }

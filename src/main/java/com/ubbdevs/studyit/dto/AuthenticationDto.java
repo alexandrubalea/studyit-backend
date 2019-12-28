@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Data
 @Builder
@@ -28,11 +29,11 @@ public class AuthenticationDto {
 
     @NotNull
     @JsonProperty("scope")
-    private String scope;
+    private Set<String> scope;
 
     @NotNull
     @JsonProperty("user_id")
-    private String userId;
+    private Long userId;
 
     @NotNull
     @JsonProperty("jti")

@@ -6,7 +6,7 @@ import com.ubbdevs.studyit.model.Student;
 
 public interface UserService {
 
-    StudentDto createStudent(String clientId, StudentCreationDto studentCreationDto);
+    AuthenticationDto createStudent(String clientId, StudentCreationDto studentCreationDto);
     StudentDto getStudent();
     Student getStudentById(Long studentId);
     Professor getProfessorById(Long professorId);
