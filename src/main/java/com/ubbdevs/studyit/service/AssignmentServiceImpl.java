@@ -3,6 +3,8 @@ package com.ubbdevs.studyit.service;
 import com.ubbdevs.studyit.dto.AssignmentCreationDto;
 import com.ubbdevs.studyit.dto.AssignmentDto;
 import com.ubbdevs.studyit.mapper.AssignmentMapper;
+import com.ubbdevs.studyit.model.Assignment;
+import com.ubbdevs.studyit.model.Professor;
 import com.ubbdevs.studyit.model.entity.Assignment;
 import com.ubbdevs.studyit.repository.AssignmentRepository;
 import lombok.AllArgsConstructor;
@@ -24,18 +26,12 @@ public class AssignmentServiceImpl implements AssignmentService {
         return assignmentMapper.modelToDto(assignmentRepository.save(assignment));
     }
 
-    public List<AssignmentDto> getListOfAllAssignments(final Long professorId, final Long subjectId) {
-        List<Assignment> assignments;
-        if (professorId == null) {
-            assignments = assignmentRepository.findBySubjectId(subjectId);
-        }
-        else {
-            userService.getProfessorById(professorId);
-            assignments = assignmentRepository.findByProfessorId(professorId);
-        }
-        return assignments
+    public List<AssignmentDto> getListOfAllAssignments(Long professorId, Long subjectId) {
+        userService.getProfessorById(professorId);
+        return assignmentRepository.findByProfessorIdAndSubjectId(professorId, subjectId)
                 .stream()
                 .map(assignmentMapper::modelToDto)
                 .collect(Collectors.toList());
     }
+
 }

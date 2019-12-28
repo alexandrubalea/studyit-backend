@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiResponses;
 
 import java.util.List;
 
+@Api(description = "Assignment API", tags = {"Assignment"})
+public interface AssignmentControllerApi {
 @Api(description = "Assignments API", tags = {"Assignments"})
 public interface AssignmentControllerApi {
 
