@@ -1,6 +1,7 @@
 package com.ubbdevs.studyit.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ubbdevs.studyit.model.enums.Role;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -34,6 +35,10 @@ public class AuthenticationDto {
     @NotNull
     @JsonProperty("user_id")
     private Long userId;
+
+    @NotNull
+    @JsonProperty("user_role")
+    private Role userRole;
 
     @NotNull
     @JsonProperty("jti")

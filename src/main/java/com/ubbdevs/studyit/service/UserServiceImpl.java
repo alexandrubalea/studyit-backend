@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
                 studentCreationDto.getEmail(),
                 studentCreationDto.getPassword()
         );
-        return authenticationMapper.modelToDto(createdStudent.getId(), accessToken);
+        return authenticationMapper.modelToDto(createdStudent.getId(), createdStudent.getRole(), accessToken);
     }
 
     public StudentDto getStudent() {
