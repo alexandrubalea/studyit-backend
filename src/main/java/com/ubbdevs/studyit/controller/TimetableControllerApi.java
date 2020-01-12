@@ -1,5 +1,7 @@
 package com.ubbdevs.studyit.controller;
 
+import com.ubbdevs.studyit.dto.SubjectDto;
+import com.ubbdevs.studyit.dto.SubjectInformationDto;
 import com.ubbdevs.studyit.dto.TimetableEntryDto;
 import com.ubbdevs.studyit.model.TimetableEntry;
 import com.ubbdevs.studyit.model.enums.Day;
@@ -28,4 +30,11 @@ public interface TimetableControllerApi {
     List<TimetableEntryDto> getStudentTimetableForDay(Day day);
 
     List<TimetableEntryDto> getProfessorTimetable();
+
+
+    @ApiOperation(value = "Return subject information", response = SubjectInformationDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully returned the subjects, empty list if no subject")
+    })
+    SubjectInformationDto getSubjectInformation(Long subjectId);
 }

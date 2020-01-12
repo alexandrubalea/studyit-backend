@@ -6,12 +6,15 @@ import com.ubbdevs.studyit.dto.SubjectDto;
 import com.ubbdevs.studyit.exception.custom.DuplicateResourceException;
 import com.ubbdevs.studyit.mapper.EnrollmentMapper;
 import com.ubbdevs.studyit.mapper.SubjectMapper;
+import com.ubbdevs.studyit.model.DepartmentSubject;
 import com.ubbdevs.studyit.model.Enrollment;
 import com.ubbdevs.studyit.model.Student;
 import com.ubbdevs.studyit.model.Subject;
 import com.ubbdevs.studyit.repository.EnrollmentRepository;
 import com.ubbdevs.studyit.service.oauth.AuthorizationService;
 import lombok.AllArgsConstructor;
+import lombok.Setter;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,30 +23,38 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Setter
 public class EnrollmentServiceImpl implements EnrollmentService {
 
     private final EnrollmentRepository enrollmentRepository;
-    private final UserService userService;
     private final SubjectService subjectService;
-    private final SubjectMapper subjectMapper;
     private final EnrollmentMapper enrollmentMapper;
     private final AuthorizationService authorizationService;
+    private final DepartmentSubjectService departmentSubjectService;
+    private final DepartmentService departmentService;
 
     @Transactional
-    public List<EnrollmentDto> enrollStudentAtSubject(EnrollStudentDto enrollStudentDto) {
-        final Long studentId = authorizationService.getUserId();
+    public List<EnrollmentDto> enrollStudentAtSubject(final Student student, final EnrollStudentDto enrollStudentDto) {
         return enrollStudentDto.getSubjects()
                 .stream()
-                .map(subjectId -> checkIfStudentIsAlreadyEnrolledAndEnrollStudentIfNot(studentId, subjectId))
+                .map(subjectId -> checkIfStudentIsAlreadyEnrolledAndEnrollStudentIfNot(student,
+                        subjectService.getSubjectById(subjectId)))
                 .collect(Collectors.toList());
     }
 
-    public List<EnrollmentDto> getAllStudentEnrollments() {
-        final Long studentId = authorizationService.getUserId();
-        return userService.getStudentById(studentId).getEnrollments()
+    public List<EnrollmentDto> getAllStudentEnrollments(final Student student) {
+        return enrollmentRepository.findAllByStudent_Id(student.getId())
                 .stream()
                 .map(enrollmentMapper::modelToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void enrollStudentAtMandatorySubjects(final Student student) {
+        final Long departmentId = departmentService.getDepartmentByGroup(student.getGroup()).getId();
+        departmentSubjectService
+                .getMandatorySubjectsForDepartmentId(departmentId)
+                .forEach(departmentSubject -> enrollStudentAtSubject(student, departmentSubject.getSubject()));
     }
 
     @Transactional
@@ -52,14 +63,13 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         enrollmentRepository.deleteByIdAndStudent_Id(enrollmentId, studentId);
     }
 
-    private EnrollmentDto checkIfStudentIsAlreadyEnrolledAndEnrollStudentIfNot(Long studentId, Long subjectId) {
-        checkIfEnrollmentForStudentAtSubjectExists(studentId, subjectId);
-        return enrollmentMapper.modelToDto(enrollStudentAtSubject(studentId, subjectId));
+    private EnrollmentDto checkIfStudentIsAlreadyEnrolledAndEnrollStudentIfNot(final Student student, final Subject subject) {
+        checkIfEnrollmentForStudentAtSubjectExists(student.getId(), subject.getId());
+        return enrollmentMapper.modelToDto(enrollStudentAtSubject(student, subject));
     }
 
-    private Enrollment enrollStudentAtSubject(final Long studentId, final Long subjectId) {
-        return enrollmentRepository.save(createEnrollmentForStudentAtSubject(userService.getStudentById(studentId),
-                subjectService.getSubjectById(subjectId)));
+    private Enrollment enrollStudentAtSubject(final Student student, final Subject subject) {
+        return enrollmentRepository.save(createEnrollmentForStudentAtSubject(student, subject));
     }
 
     private Enrollment createEnrollmentForStudentAtSubject(final Student student, final Subject subject) {

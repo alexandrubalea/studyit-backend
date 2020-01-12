@@ -1,13 +1,14 @@
 package com.ubbdevs.studyit.service;
 
+import com.ubbdevs.studyit.dto.ProfessorWithClassTypeDto;
+import com.ubbdevs.studyit.dto.SubjectInformationDto;
 import com.ubbdevs.studyit.dto.TimetableEntryDto;
 import com.ubbdevs.studyit.exception.custom.UnauthorizedException;
 import com.ubbdevs.studyit.mapper.GroupMapper;
+import com.ubbdevs.studyit.mapper.ProfessorMapper;
 import com.ubbdevs.studyit.mapper.TimetableEntryMapper;
-import com.ubbdevs.studyit.model.Department;
-import com.ubbdevs.studyit.model.Group;
-import com.ubbdevs.studyit.model.Student;
-import com.ubbdevs.studyit.model.TimetableEntry;
+import com.ubbdevs.studyit.model.*;
+import com.ubbdevs.studyit.model.enums.ClassType;
 import com.ubbdevs.studyit.model.enums.Day;
 import com.ubbdevs.studyit.repository.TimetableRepository;
 import com.ubbdevs.studyit.service.oauth.AuthorizationService;
@@ -15,9 +16,9 @@ import com.ubbdevs.studyit.validator.TimetableValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,11 +30,38 @@ public class TimetableServiceImpl implements TimetableService {
     private final UserService userService;
     private final DepartmentService departmentService;
     private final AuthorizationService authorizationService;
+    private final SubjectService subjectService;
 
     private final GroupMapper groupMapper;
     private final TimetableEntryMapper timetableEntryMapper;
+    private final ProfessorMapper professorMapper;
 
     private final TimetableValidator timetableValidator;
+
+    @Override
+    public SubjectInformationDto getSubjectInformation(Long subjectId) {
+        Subject subject = subjectService.getSubjectById(subjectId);
+        Map<Professor, List<ClassType>> professors = getAMapOfProfessorsWithClassTypesFromList(
+                timetableRepository.getDistinctClassTypeAndProfessorId(subject));
+        List<ProfessorWithClassTypeDto> professorWithClassTypeDtos = professors.entrySet()
+                .stream()
+                .map(professor -> ProfessorWithClassTypeDto.builder()
+                        .professor(professorMapper.modelToDto(professor.getKey()))
+                        .classTypes(professor.getValue())
+                        .build())
+                .collect(Collectors.toList());
+        return SubjectInformationDto.builder()
+                .subject(subject)
+                .professors(professorWithClassTypeDtos)
+                .build();
+    }
+
+    private Map<Professor, List<ClassType>> getAMapOfProfessorsWithClassTypesFromList(List<ProfessorWithClassType> professorWithClassTypes) {
+        return professorWithClassTypes
+                .stream()
+                .collect(Collectors.groupingBy(ProfessorWithClassType::getProfessor,
+                        Collectors.mapping(ProfessorWithClassType::getClassType, Collectors.toList())));
+    }
 
     @Override
     public void checkIfProfessorTeacherSubject(Long professorId, Long subjectId) {

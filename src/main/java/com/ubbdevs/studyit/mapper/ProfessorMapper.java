@@ -1,6 +1,7 @@
 package com.ubbdevs.studyit.mapper;
 
 import com.ubbdevs.studyit.dto.ProfessorDto;
+import com.ubbdevs.studyit.dto.ProfessorWithClassTypeDto;
 import com.ubbdevs.studyit.model.Professor;
 import org.springframework.stereotype.Component;
 

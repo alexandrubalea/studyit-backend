@@ -19,6 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -26,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final ClientDetailsAdaptorService clientDetailsAdaptorService;
     private final AuthorizationService authorizationService;
     private final OauthAdaptorService oauthAdaptorService;
+    private final EnrollmentService enrollmentService;
 
     private final UserRepository userRepository;
 
@@ -40,6 +43,7 @@ public class UserServiceImpl implements UserService {
         clientDetailsAdaptorService.validateClientId(clientId);
         final Student student = studentMapper.dtoToModel(studentCreationDto);
         final Student createdStudent = checkIfEmailIsAvailableAndCreateStudent(student);
+        enrollmentService.enrollStudentAtMandatorySubjects(createdStudent);
         final OAuth2AccessToken accessToken = oauthAdaptorService.loginUser(
                 clientId,
                 studentCreationDto.getEmail(),
@@ -86,6 +90,23 @@ public class UserServiceImpl implements UserService {
     public void deleteUserAccount() {
         final long userId = authorizationService.getUserId();
         userRepository.deleteById(userId);
+    }
+
+    @Override
+    public List<EnrollmentDto> enrollStudentAtSubject(EnrollStudentDto enrollStudentDto) {
+        final Long studentId = authorizationService.getUserId();
+        return enrollmentService.enrollStudentAtSubject(getStudentById(studentId), enrollStudentDto);
+    }
+
+    @Override
+    public List<EnrollmentDto> getAllStudentEnrollments() {
+        final Long studentId = authorizationService.getUserId();
+        return enrollmentService.getAllStudentEnrollments(getStudentById(studentId));
+    }
+
+    @Override
+    public void deleteStudentEnrollment(final Long enrollmentId) {
+        enrollmentService.deleteStudentEnrollment(enrollmentId);
     }
 
     private Student checkIfEmailIsAvailableAndCreateStudent(final Student student) {

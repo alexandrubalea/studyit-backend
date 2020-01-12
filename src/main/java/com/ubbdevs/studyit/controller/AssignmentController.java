@@ -24,7 +24,7 @@ public class AssignmentController implements AssignmentControllerApi {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<AssignmentDto> getListOfAllAssignments(@RequestParam Long professorId, @RequestParam Long subjectId) {
+    public List<AssignmentDto> getListOfAllAssignments(@RequestParam Long subjectId, @RequestParam(required = false) Long professorId) {
         return assignmentService.getListOfAllAssignments(professorId, subjectId);
     }
 }

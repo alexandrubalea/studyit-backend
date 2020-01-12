@@ -11,8 +11,8 @@ import io.swagger.annotations.ApiResponses;
 
 import java.util.List;
 
-@Api(description = "Enrollments API", tags = {"Enrollments"})
-public interface EnrollmentControllerApi {
+@Api(description = "Students API", tags = {"Students"})
+public interface StudentControllerApi {
 
     @ApiOperation(value = "Enroll student at multiple subjects", response = EnrollmentDto.class)
     @ApiResponses(value = {

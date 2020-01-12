@@ -1,5 +1,7 @@
 package com.ubbdevs.studyit.controller;
 
+import com.ubbdevs.studyit.dto.SubjectDto;
+import com.ubbdevs.studyit.dto.SubjectInformationDto;
 import com.ubbdevs.studyit.dto.TimetableEntryDto;
 import com.ubbdevs.studyit.model.enums.Day;
 import com.ubbdevs.studyit.service.TimetableService;
@@ -25,12 +27,17 @@ public class TimetableController implements TimetableControllerApi {
     @GetMapping("/student/me")
     @ResponseStatus(HttpStatus.OK)
     public List<TimetableEntryDto> getStudentTimetableForDay(@RequestParam(required = false) final Day day) {
-        List<TimetableEntryDto> timetable = timetableService.getStudentTimetableBasedOnDay(day);
-        return timetable;
+        return timetableService.getStudentTimetableBasedOnDay(day);
     }
 
     @Override
     public List<TimetableEntryDto> getProfessorTimetable() {
         return null;
+    }
+
+
+    @GetMapping("/subject/{subjectId}/info")
+    public SubjectInformationDto getSubjectInformation(@PathVariable Long subjectId) {
+        return timetableService.getSubjectInformation(subjectId);
     }
 }
