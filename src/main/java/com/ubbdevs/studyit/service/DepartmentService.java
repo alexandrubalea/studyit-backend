@@ -1,7 +1,7 @@
 package com.ubbdevs.studyit.service;
 
 import com.ubbdevs.studyit.dto.DepartmentDto;
-import com.ubbdevs.studyit.model.Department;
+import com.ubbdevs.studyit.model.entity.Department;
 import com.ubbdevs.studyit.model.Group;
 
 import java.util.List;

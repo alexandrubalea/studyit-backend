@@ -1,6 +1,6 @@
 package com.ubbdevs.studyit.service;
 
-import com.ubbdevs.studyit.model.DepartmentSubject;
+import com.ubbdevs.studyit.model.entity.DepartmentSubject;
 
 import java.util.List;
 

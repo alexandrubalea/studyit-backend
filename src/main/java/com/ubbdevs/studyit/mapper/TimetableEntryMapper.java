@@ -1,8 +1,7 @@
 package com.ubbdevs.studyit.mapper;
 
 import com.ubbdevs.studyit.dto.TimetableEntryDto;
-import com.ubbdevs.studyit.model.Subject;
-import com.ubbdevs.studyit.model.TimetableEntry;
+import com.ubbdevs.studyit.model.entity.TimetableEntry;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

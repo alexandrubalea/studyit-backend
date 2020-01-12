@@ -7,9 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Role {
 
-    USER("User"),
-    STUDENT("Student"),
-    PROFESSOR("Professor");
-
-    private String name;
+    USER,
+    STUDENT,
+    PROFESSOR;
 }

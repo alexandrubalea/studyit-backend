@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfessorWithClassTypeDto {
+public class ProfessorAndClassTypeDto {
 
     private ProfessorDto professor;
     private List<ClassType> classTypes;

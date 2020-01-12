@@ -2,8 +2,6 @@ package com.ubbdevs.studyit.controller;
 
 import com.ubbdevs.studyit.dto.EnrollStudentDto;
 import com.ubbdevs.studyit.dto.EnrollmentDto;
-import com.ubbdevs.studyit.dto.SubjectDto;
-import com.ubbdevs.studyit.model.Enrollment;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

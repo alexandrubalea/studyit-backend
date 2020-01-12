@@ -1,8 +1,8 @@
 package com.ubbdevs.studyit.service;
 
 import com.ubbdevs.studyit.dto.*;
-import com.ubbdevs.studyit.model.Professor;
-import com.ubbdevs.studyit.model.Student;
+import com.ubbdevs.studyit.model.entity.Professor;
+import com.ubbdevs.studyit.model.entity.Student;
 
 import java.util.List;
 

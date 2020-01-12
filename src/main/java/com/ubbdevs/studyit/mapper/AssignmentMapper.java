@@ -2,7 +2,7 @@ package com.ubbdevs.studyit.mapper;
 
 import com.ubbdevs.studyit.dto.AssignmentCreationDto;
 import com.ubbdevs.studyit.dto.AssignmentDto;
-import com.ubbdevs.studyit.model.Assignment;
+import com.ubbdevs.studyit.model.entity.Assignment;
 import org.springframework.stereotype.Component;
 
 @Component

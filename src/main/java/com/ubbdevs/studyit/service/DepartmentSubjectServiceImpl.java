@@ -1,6 +1,6 @@
 package com.ubbdevs.studyit.service;
 
-import com.ubbdevs.studyit.model.DepartmentSubject;
+import com.ubbdevs.studyit.model.entity.DepartmentSubject;
 import com.ubbdevs.studyit.model.enums.SubjectType;
 import com.ubbdevs.studyit.repository.DepartmentSubjectRepository;
 import lombok.AllArgsConstructor;

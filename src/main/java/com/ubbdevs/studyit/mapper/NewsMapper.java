@@ -2,7 +2,7 @@ package com.ubbdevs.studyit.mapper;
 
 import com.ubbdevs.studyit.dto.NewsCreationDto;
 import com.ubbdevs.studyit.dto.NewsDto;
-import com.ubbdevs.studyit.model.News;
+import com.ubbdevs.studyit.model.entity.News;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,5 @@
 package com.ubbdevs.studyit.dto;
 
-import com.ubbdevs.studyit.model.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

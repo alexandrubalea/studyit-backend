@@ -2,7 +2,7 @@ package com.ubbdevs.studyit.service;
 
 import com.ubbdevs.studyit.dto.EnrollStudentDto;
 import com.ubbdevs.studyit.dto.EnrollmentDto;
-import com.ubbdevs.studyit.model.Student;
+import com.ubbdevs.studyit.model.entity.Student;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.ubbdevs.studyit.mapper;
 
 import com.ubbdevs.studyit.dto.DepartmentDto;
-import com.ubbdevs.studyit.model.Department;
+import com.ubbdevs.studyit.model.entity.Department;
 import org.springframework.stereotype.Component;
 
 @Component

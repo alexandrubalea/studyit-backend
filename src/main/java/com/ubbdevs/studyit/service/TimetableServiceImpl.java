@@ -1,15 +1,24 @@
 package com.ubbdevs.studyit.service;
 
-import com.ubbdevs.studyit.dto.*;
-import com.ubbdevs.studyit.exception.custom.UnauthorizedException;
+import com.ubbdevs.studyit.dto.ProfessorAndClassTypeDto;
+import com.ubbdevs.studyit.dto.SubjectAndClassTypeDto;
+import com.ubbdevs.studyit.dto.SubjectInformationDto;
+import com.ubbdevs.studyit.dto.TimetableEntryDto;
+import com.ubbdevs.studyit.exception.custom.ResourceNotFoundException;
 import com.ubbdevs.studyit.mapper.GroupMapper;
 import com.ubbdevs.studyit.mapper.ProfessorMapper;
 import com.ubbdevs.studyit.mapper.SubjectMapper;
 import com.ubbdevs.studyit.mapper.TimetableEntryMapper;
-import com.ubbdevs.studyit.model.*;
+import com.ubbdevs.studyit.model.Group;
+import com.ubbdevs.studyit.model.ProfessorAndClassType;
+import com.ubbdevs.studyit.model.SubjectAndClassType;
+import com.ubbdevs.studyit.model.entity.Professor;
+import com.ubbdevs.studyit.model.entity.Student;
+import com.ubbdevs.studyit.model.entity.Subject;
+import com.ubbdevs.studyit.model.entity.TimetableEntry;
 import com.ubbdevs.studyit.model.enums.ClassType;
 import com.ubbdevs.studyit.model.enums.Day;
-import com.ubbdevs.studyit.repository.SubjectRepository;
+import com.ubbdevs.studyit.model.enums.Role;
 import com.ubbdevs.studyit.repository.TimetableRepository;
 import com.ubbdevs.studyit.service.oauth.AuthorizationService;
 import com.ubbdevs.studyit.validator.TimetableValidator;
@@ -17,6 +26,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -25,57 +35,31 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TimetableServiceImpl implements TimetableService {
 
-    private final TimetableRepository timetableRepository;
-
-    private final UserService userService;
-    private final DepartmentService departmentService;
-    private final AuthorizationService authorizationService;
-    private final SubjectService subjectService;
-
     private final GroupMapper groupMapper;
-    private final TimetableEntryMapper timetableEntryMapper;
-    private final ProfessorMapper professorMapper;
     private final SubjectMapper subjectMapper;
+    private final ProfessorMapper professorMapper;
+    private final TimetableEntryMapper timetableEntryMapper;
 
     private final TimetableValidator timetableValidator;
-    private final TimetableEntryMapper timetableEntryMapper;
+
+    private final UserService userService;
     private final SubjectService subjectService;
+    private final DepartmentService departmentService;
+    private final AuthorizationService authorizationService;
+    private final ClientDetailsAdaptorService clientDetailsAdaptorService;
 
-    @Override
-    public SubjectInformationDto getSubjectInformation(Long subjectId) {
-        Subject subject = subjectService.getSubjectById(subjectId);
-        Map<Professor, List<ClassType>> professors = getAMapOfProfessorsWithClassTypesFromList(
-                timetableRepository.getDistinctClassTypeAndProfessorId(subject));
-        List<ProfessorWithClassTypeDto> professorWithClassTypeDtos = professors.entrySet()
-                .stream()
-                .map(professor -> ProfessorWithClassTypeDto.builder()
-                        .professor(professorMapper.modelToDto(professor.getKey()))
-                        .classTypes(professor.getValue())
-                        .build())
-                .collect(Collectors.toList());
-        return SubjectInformationDto.builder()
-                .subject(subject)
-                .professors(professorWithClassTypeDtos)
-                .build();
-    }
-
-    private Map<Professor, List<ClassType>> getAMapOfProfessorsWithClassTypesFromList(List<ProfessorAndClassType> professorAndClassTypes) {
-        return professorAndClassTypes
-                .stream()
-                .collect(Collectors.groupingBy(ProfessorAndClassType::getProfessor,
-                        Collectors.mapping(ProfessorAndClassType::getClassType, Collectors.toList())));
-    }
-
+    private final TimetableRepository timetableRepository;
 
     @Override
     public void checkIfProfessorTeachesSubject(Long professorId, Long subjectId) {
         timetableRepository.findFirstByProfessor_IdAndSubject_Id(professorId, subjectId)
                 .orElseThrow(() -> {
-                    throw new UnauthorizedException("Professor with id " + professorId + " does not teach subject " +
+                    throw new ResourceNotFoundException("Professor with id " + professorId + " does not teach subject " +
                             "with id " + subjectId);
                 });
     }
 
+    @Override
     public List<TimetableEntryDto> getTimetableForGroup(final String group) {
         timetableValidator.validateGroup(group);
         final Group mappedGroup = groupMapper.dtoToModel(group);
@@ -85,20 +69,19 @@ public class TimetableServiceImpl implements TimetableService {
                 .collect(Collectors.toList());
     }
 
-    public List<TimetableEntryDto> getStudentTimetableBasedOnDay(Day day) {
-        final Long studentId = authorizationService.getUserId();
-        final Student student = userService.getStudentById(studentId);
-        final List<String> formation = departmentService.getFormationFromGroup(student.getGroup());
-        List<Long> subjectsIds = getStudentEnrollmentSubjectIds(studentId);
-        List<TimetableEntry> timetable;
-        if (day == null)
-            timetable = getStudentWeeklyTimetable(formation, subjectsIds);
-        else
-            timetable = getStudentDailyTimetable(formation, subjectsIds);
-        return timetable
+    @Override
+    public SubjectInformationDto getSubjectInformation(final Long subjectId) {
+        Subject subject = subjectService.getSubjectById(subjectId);
+        List<ProfessorAndClassTypeDto> professors = mapProfessorToClassType(timetableRepository
+                .getDistinctClassTypeAndProfessorId(subject))
+                .entrySet()
                 .stream()
-                .map(timetableEntryMapper::modelToDto)
+                .map(professor -> professorMapper.modelToDto(professor.getKey(), professor.getValue()))
                 .collect(Collectors.toList());
+        return SubjectInformationDto.builder()
+                .subject(subject)
+                .professors(professors)
+                .build();
     }
 
     @Override
@@ -108,6 +91,45 @@ public class TimetableServiceImpl implements TimetableService {
                 .stream()
                 .map(subject -> subjectMapper.modelToDto(subject.getKey(), subject.getValue()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TimetableEntryDto> getTimetableForProfessorBasedOnDay(final String clientId, final Long id, final Day day) {
+        clientDetailsAdaptorService.validateClientId(clientId);
+        userService.getProfessorById(id);
+        List<TimetableEntry> timetable;
+        if (day == null)
+            timetable = getWeeklyTimetableForProfessor(id);
+        else
+            timetable = getDailyTimetableForProfessor(id, day);
+        return timetable
+                .stream()
+                .map(timetableEntryMapper::modelToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TimetableEntryDto> getTimetableForStudentBasedOnDay(final Day day) {
+        final Long id = authorizationService.getUserId();
+        final Student student = userService.getStudentById(id);
+        final List<String> formation = departmentService.getFormationFromGroup(student.getGroup());
+        List<Long> subjectsIds = getStudentEnrollmentSubjectIds(id);
+        List<TimetableEntry> timetable;
+        if (day == null)
+            timetable = getWeeklyTimetableForFormation(formation, subjectsIds);
+        else
+            timetable = getDailyTimetableForFormation(formation, subjectsIds, day);
+        return timetable
+                .stream()
+                .map(timetableEntryMapper::modelToDto)
+                .collect(Collectors.toList());
+    }
+
+    private Map<Professor, List<ClassType>> mapProfessorToClassType(List<ProfessorAndClassType> professors) {
+        return professors
+                .stream()
+                .collect(Collectors.groupingBy(ProfessorAndClassType::getProfessor,
+                        Collectors.mapping(ProfessorAndClassType::getClassType, Collectors.toList())));
     }
 
     private Map<Subject, List<ClassType>> mapSubjectToClassType(final List<SubjectAndClassType> subjects) {
@@ -123,19 +145,20 @@ public class TimetableServiceImpl implements TimetableService {
                 .collect(Collectors.toList());
     }
 
-    private List<TimetableEntry> getStudentWeeklyTimetable(final List<String> formation, final Collection subjects) {
-        return timetableRepository.getByFormationInAndSubject_IdIn(formation, subjects);
+    private List<TimetableEntry> getWeeklyTimetableForFormation(final List<String> formation, final Collection subjects) {
+        return timetableRepository.getByFormationInAndSubjectIdIn(formation, subjects);
     }
 
-    private List<TimetableEntry> getStudentDailyTimetable(final List<String> formation, final Collection subjects) {
-        return timetableRepository.getByFormationInAndSubject_IdIn(formation, subjects);
+    private List<TimetableEntry> getDailyTimetableForFormation(final List<String> formation, final Collection subjects,
+                                                               final Day day) {
+        return timetableRepository.getByFormationInAndSubjectIdInAndDay(formation, subjects, day);
     }
 
-    @Override
-    public List<TimetableEntryDto> getTimetableForProfessor(Long professorID) {
-        return timetableRepository.selectDistinctByProfessorId(Arrays.asList(subjectService.getAllSubjects()))
-                .stream()
-                .map(timetableEntryMapper::modelToDto)
-                .collect(Collectors.toList());
+    private List<TimetableEntry> getWeeklyTimetableForProfessor(final Long id) {
+        return timetableRepository.getByProfessorId(id);
+    }
+
+    private List<TimetableEntry> getDailyTimetableForProfessor(final Long id, final Day day) {
+        return timetableRepository.getByProfessorIdAndDay(id, day);
     }
 }

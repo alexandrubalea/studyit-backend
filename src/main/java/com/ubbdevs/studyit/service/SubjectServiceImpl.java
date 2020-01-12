@@ -3,7 +3,7 @@ package com.ubbdevs.studyit.service;
 import com.ubbdevs.studyit.dto.SubjectDto;
 import com.ubbdevs.studyit.exception.custom.ResourceNotFoundException;
 import com.ubbdevs.studyit.mapper.SubjectMapper;
-import com.ubbdevs.studyit.model.Subject;
+import com.ubbdevs.studyit.model.entity.Subject;
 import com.ubbdevs.studyit.repository.SubjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

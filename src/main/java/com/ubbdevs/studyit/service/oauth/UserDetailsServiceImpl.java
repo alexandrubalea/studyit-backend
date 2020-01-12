@@ -1,7 +1,7 @@
 package com.ubbdevs.studyit.service.oauth;
 
 import com.ubbdevs.studyit.config.security.Principal;
-import com.ubbdevs.studyit.model.User;
+import com.ubbdevs.studyit.model.entity.User;
 import com.ubbdevs.studyit.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -4,7 +4,7 @@ import com.ubbdevs.studyit.dto.DepartmentDto;
 import com.ubbdevs.studyit.dto.GroupEncoder;
 import com.ubbdevs.studyit.exception.custom.ResourceNotFoundException;
 import com.ubbdevs.studyit.mapper.DepartmentMapper;
-import com.ubbdevs.studyit.model.Department;
+import com.ubbdevs.studyit.model.entity.Department;
 import com.ubbdevs.studyit.model.Group;
 import com.ubbdevs.studyit.repository.DepartmentRepository;
 import lombok.AllArgsConstructor;

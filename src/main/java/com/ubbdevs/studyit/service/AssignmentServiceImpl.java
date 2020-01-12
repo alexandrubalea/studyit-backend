@@ -1,11 +1,9 @@
 package com.ubbdevs.studyit.service;
 
-import com.mysql.cj.xdevapi.Collection;
 import com.ubbdevs.studyit.dto.AssignmentCreationDto;
 import com.ubbdevs.studyit.dto.AssignmentDto;
 import com.ubbdevs.studyit.mapper.AssignmentMapper;
-import com.ubbdevs.studyit.model.Assignment;
-import com.ubbdevs.studyit.model.Professor;
+import com.ubbdevs.studyit.model.entity.Assignment;
 import com.ubbdevs.studyit.repository.AssignmentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

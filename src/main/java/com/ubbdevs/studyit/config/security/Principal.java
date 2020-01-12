@@ -1,6 +1,6 @@
 package com.ubbdevs.studyit.config.security;
 
-import com.ubbdevs.studyit.model.User;
+import com.ubbdevs.studyit.model.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;

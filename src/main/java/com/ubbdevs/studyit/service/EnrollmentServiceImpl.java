@@ -2,19 +2,15 @@ package com.ubbdevs.studyit.service;
 
 import com.ubbdevs.studyit.dto.EnrollStudentDto;
 import com.ubbdevs.studyit.dto.EnrollmentDto;
-import com.ubbdevs.studyit.dto.SubjectDto;
 import com.ubbdevs.studyit.exception.custom.DuplicateResourceException;
 import com.ubbdevs.studyit.mapper.EnrollmentMapper;
-import com.ubbdevs.studyit.mapper.SubjectMapper;
-import com.ubbdevs.studyit.model.DepartmentSubject;
-import com.ubbdevs.studyit.model.Enrollment;
-import com.ubbdevs.studyit.model.Student;
-import com.ubbdevs.studyit.model.Subject;
+import com.ubbdevs.studyit.model.entity.Enrollment;
+import com.ubbdevs.studyit.model.entity.Student;
+import com.ubbdevs.studyit.model.entity.Subject;
 import com.ubbdevs.studyit.repository.EnrollmentRepository;
 import com.ubbdevs.studyit.service.oauth.AuthorizationService;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

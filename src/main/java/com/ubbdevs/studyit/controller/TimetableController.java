@@ -1,6 +1,5 @@
 package com.ubbdevs.studyit.controller;
 
-import com.ubbdevs.studyit.dto.SubjectDto;
 import com.ubbdevs.studyit.dto.SubjectInformationDto;
 import com.ubbdevs.studyit.dto.TimetableEntryDto;
 import com.ubbdevs.studyit.model.enums.Day;
@@ -24,26 +23,23 @@ public class TimetableController implements TimetableControllerApi {
         return timetableService.getTimetableForGroup(group);
     }
 
-    @GetMapping("/student/me")
+    @GetMapping("/professors/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<TimetableEntryDto> getStudentTimetableForDay(@RequestParam(required = false) final Day day) {
-        return timetableService.getStudentTimetableBasedOnDay(day);
+    public List<TimetableEntryDto> getTimetableForProfessorOnDay(@RequestParam final String clientId,
+                                                                 @PathVariable final Long id,
+                                                                 @RequestParam(required = false) final Day day) {
+        return timetableService.getTimetableForProfessorBasedOnDay(clientId, id, day);
     }
 
-    @Override
-    public List<TimetableEntryDto> getProfessorTimetable() {
-        return null;
-    }
-
-    @GetMapping
+    @GetMapping("/students")
     @ResponseStatus(HttpStatus.OK)
-    public List<TimetableEntryDto> getTimetableForProfessor(@RequestParam final Long professorID) {
-        return timetableService.getTimetableForProfessor(professorID);
+    public List<TimetableEntryDto> getTimetableForStudentOnDay(@RequestParam(required = false) final Day day) {
+        return timetableService.getTimetableForStudentBasedOnDay(day);
     }
 
-
-    @GetMapping("/subject/{subjectId}/info")
-    public SubjectInformationDto getSubjectInformation(@PathVariable Long subjectId) {
-        return timetableService.getSubjectInformation(subjectId);
+    @GetMapping("/subject/{id}/info")
+    @ResponseStatus(HttpStatus.OK)
+    public SubjectInformationDto getSubjectInformation(@PathVariable final Long id) {
+        return timetableService.getSubjectInformation(id);
     }
 }

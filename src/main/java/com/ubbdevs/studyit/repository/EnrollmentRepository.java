@@ -1,6 +1,6 @@
 package com.ubbdevs.studyit.repository;
 
-import com.ubbdevs.studyit.model.Enrollment;
+import com.ubbdevs.studyit.model.entity.Enrollment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

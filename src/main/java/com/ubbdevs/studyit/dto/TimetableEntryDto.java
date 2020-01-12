@@ -1,7 +1,6 @@
 package com.ubbdevs.studyit.dto;
 
-import com.ubbdevs.studyit.model.Room;
-import com.ubbdevs.studyit.model.Subject;
+import com.ubbdevs.studyit.model.entity.Room;
 import com.ubbdevs.studyit.model.enums.ClassType;
 import com.ubbdevs.studyit.model.enums.Day;
 import com.ubbdevs.studyit.model.enums.Frequency;

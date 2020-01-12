@@ -1,6 +1,8 @@
-package com.ubbdevs.studyit.model;
+package com.ubbdevs.studyit.model.entity;
 
-import com.ubbdevs.studyit.model.enums.SubjectType;
+
+import com.ubbdevs.studyit.model.entity.Student;
+import com.ubbdevs.studyit.model.entity.Subject;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,22 +13,18 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DepartmentSubject {
+public class Enrollment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(value = EnumType.STRING)
-    private SubjectType subjectType;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id", nullable = false)
-    private Department department;
+    @JoinColumn(name = "student_id", nullable = false)
+    private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
-    private Integer numberOfCredits;
 }

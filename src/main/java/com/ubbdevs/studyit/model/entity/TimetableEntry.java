@@ -1,4 +1,4 @@
-package com.ubbdevs.studyit.model;
+package com.ubbdevs.studyit.model.entity;
 
 import com.ubbdevs.studyit.model.enums.ClassType;
 import com.ubbdevs.studyit.model.enums.Day;

@@ -1,5 +1,6 @@
-package com.ubbdevs.studyit.model;
+package com.ubbdevs.studyit.model.entity;
 
+import com.ubbdevs.studyit.model.entity.Subject;
 import lombok.*;
 
 import javax.persistence.*;

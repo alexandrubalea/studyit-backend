@@ -2,10 +2,7 @@ package com.ubbdevs.studyit.controller;
 
 import com.ubbdevs.studyit.dto.SubjectAndClassTypeDto;
 import com.ubbdevs.studyit.dto.SubjectDto;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 
 import java.util.List;
 
@@ -13,9 +10,10 @@ import java.util.List;
 public interface ProfessorControllerApi {
 
     @ApiOperation(value = "Returns all subjects that are teached by the professor with given id (COURSE, SEMINARY or" +
-            " LABORATORY) or empty list if there are no subjects.", response = SubjectDto.class)
+            " LABORATORY)", response = SubjectAndClassTypeDto.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully returns all the subjects"),
+            @ApiResponse(code = 200, message = "Successfully returns all the subjects, empty list if none"),
     })
-    List<SubjectAndClassTypeDto> getAllSubjectsForProfessorWithId(String clientId, Long id);
+    List<SubjectAndClassTypeDto> getAllSubjectsForProfessorWithId(String clientId,
+                                                                  @ApiParam(value = "Professor id", required = true) Long id);
 }
