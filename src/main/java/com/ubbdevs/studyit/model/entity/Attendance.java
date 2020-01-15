@@ -1,5 +1,6 @@
-package com.ubbdevs.studyit.model;
+package com.ubbdevs.studyit.model.entity;
 
+import com.ubbdevs.studyit.model.enums.ClassType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -15,14 +15,14 @@ import java.time.LocalDate;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Assignment {
-
+public class Attendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long professorId;
-    private Long subjectId;
-    private String content;
-    private LocalDate deadline;
-
+    @ManyToOne
+    private Professor professor;
+    @ManyToOne
+    private Subject subject;
+    private ClassType classType;
+    private int classNumber;
 }
