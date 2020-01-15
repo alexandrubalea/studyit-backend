@@ -5,14 +5,12 @@ import com.ubbdevs.studyit.dto.NewsDto;
 import com.ubbdevs.studyit.mapper.NewsMapper;
 import com.ubbdevs.studyit.model.News;
 import com.ubbdevs.studyit.model.Subject;
-import com.ubbdevs.studyit.model.TimetableEntry;
 import com.ubbdevs.studyit.repository.NewsRepository;
 import com.ubbdevs.studyit.service.oauth.AuthorizationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,7 +43,7 @@ public class NewsServiceImpl implements NewsService {
     public NewsDto postNews(final NewsCreationDto newsCreationDto) {
         final Long professorId = authorizationService.getUserId();
         final Subject subject = subjectService.getSubjectById(newsCreationDto.getSubjectId());
-        timetableService.checkIfProfessorTeacherSubject(professorId, newsCreationDto.getSubjectId());
+        timetableService.checkIfProfessorTeachesSubject(professorId, newsCreationDto.getSubjectId());
         News news = newsMapper.dtoToModel(newsCreationDto);
         news.setSubject(subject);
         return newsMapper.modelToDto(newsRepository.save(news));

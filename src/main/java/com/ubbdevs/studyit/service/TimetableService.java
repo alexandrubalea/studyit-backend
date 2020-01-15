@@ -1,18 +1,23 @@
 package com.ubbdevs.studyit.service;
 
+import com.ubbdevs.studyit.dto.SubjectAndClassTypeDto;
 import com.ubbdevs.studyit.dto.SubjectInformationDto;
 import com.ubbdevs.studyit.dto.TimetableEntryDto;
-import com.ubbdevs.studyit.model.TimetableEntry;
+import com.ubbdevs.studyit.model.Professor;
 import com.ubbdevs.studyit.model.enums.Day;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TimetableService {
 
     SubjectInformationDto getSubjectInformation(Long subjectId);
-    void checkIfProfessorTeacherSubject(Long professorId, Long subjectId);
+
+    void checkIfProfessorTeachesSubject(Long professorId, Long subjectId);
+
     List<TimetableEntryDto> getTimetableForGroup(String group);
+
     List<TimetableEntryDto> getStudentTimetableBasedOnDay(final Day day);
+
+    List<SubjectAndClassTypeDto> getAllSubjectsForProfessor(Professor professor);
 }
 

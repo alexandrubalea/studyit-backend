@@ -1,6 +1,6 @@
 package com.ubbdevs.studyit.dto;
 
-import com.ubbdevs.studyit.model.Subject;
+import com.ubbdevs.studyit.model.enums.ClassType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +12,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubjectInformationDto {
+public class SubjectAndClassTypeDto {
 
-    private Subject subject;
-    private List<ProfessorWithClassTypeDto> professors;
+    private SubjectDto subject;
+    private List<ClassType> classTypes;
 }

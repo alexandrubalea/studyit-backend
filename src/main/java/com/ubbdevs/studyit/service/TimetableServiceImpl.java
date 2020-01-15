@@ -1,11 +1,10 @@
 package com.ubbdevs.studyit.service;
 
-import com.ubbdevs.studyit.dto.ProfessorWithClassTypeDto;
-import com.ubbdevs.studyit.dto.SubjectInformationDto;
-import com.ubbdevs.studyit.dto.TimetableEntryDto;
+import com.ubbdevs.studyit.dto.*;
 import com.ubbdevs.studyit.exception.custom.UnauthorizedException;
 import com.ubbdevs.studyit.mapper.GroupMapper;
 import com.ubbdevs.studyit.mapper.ProfessorMapper;
+import com.ubbdevs.studyit.mapper.SubjectMapper;
 import com.ubbdevs.studyit.mapper.TimetableEntryMapper;
 import com.ubbdevs.studyit.model.*;
 import com.ubbdevs.studyit.model.enums.ClassType;
@@ -35,6 +34,7 @@ public class TimetableServiceImpl implements TimetableService {
     private final GroupMapper groupMapper;
     private final TimetableEntryMapper timetableEntryMapper;
     private final ProfessorMapper professorMapper;
+    private final SubjectMapper subjectMapper;
 
     private final TimetableValidator timetableValidator;
 
@@ -56,15 +56,16 @@ public class TimetableServiceImpl implements TimetableService {
                 .build();
     }
 
-    private Map<Professor, List<ClassType>> getAMapOfProfessorsWithClassTypesFromList(List<ProfessorWithClassType> professorWithClassTypes) {
-        return professorWithClassTypes
+    private Map<Professor, List<ClassType>> getAMapOfProfessorsWithClassTypesFromList(List<ProfessorAndClassType> professorAndClassTypes) {
+        return professorAndClassTypes
                 .stream()
-                .collect(Collectors.groupingBy(ProfessorWithClassType::getProfessor,
-                        Collectors.mapping(ProfessorWithClassType::getClassType, Collectors.toList())));
+                .collect(Collectors.groupingBy(ProfessorAndClassType::getProfessor,
+                        Collectors.mapping(ProfessorAndClassType::getClassType, Collectors.toList())));
     }
 
+
     @Override
-    public void checkIfProfessorTeacherSubject(Long professorId, Long subjectId) {
+    public void checkIfProfessorTeachesSubject(Long professorId, Long subjectId) {
         timetableRepository.findFirstByProfessor_IdAndSubject_Id(professorId, subjectId)
                 .orElseThrow(() -> {
                     throw new UnauthorizedException("Professor with id " + professorId + " does not teach subject " +
@@ -95,6 +96,22 @@ public class TimetableServiceImpl implements TimetableService {
                 .stream()
                 .map(timetableEntryMapper::modelToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SubjectAndClassTypeDto> getAllSubjectsForProfessor(final Professor professor) {
+        return mapSubjectToClassType(timetableRepository.getDistinctSubjectsForProfessorId(professor))
+                .entrySet()
+                .stream()
+                .map(subject -> subjectMapper.modelToDto(subject.getKey(), subject.getValue()))
+                .collect(Collectors.toList());
+    }
+
+    private Map<Subject, List<ClassType>> mapSubjectToClassType(final List<SubjectAndClassType> subjects) {
+        return subjects
+                .stream()
+                .collect(Collectors.groupingBy(SubjectAndClassType::getSubject,
+                        Collectors.mapping(SubjectAndClassType::getClassType, Collectors.toList())));
     }
 
     private List<Long> getStudentEnrollmentSubjectIds(final Long studentId) {

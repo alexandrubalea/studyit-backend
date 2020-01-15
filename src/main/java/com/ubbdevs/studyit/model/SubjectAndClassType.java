@@ -6,8 +6,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ProfessorWithClassType {
+public class SubjectAndClassType {
 
-    private Professor professor;
+    private Subject subject;
     private ClassType classType;
 }
