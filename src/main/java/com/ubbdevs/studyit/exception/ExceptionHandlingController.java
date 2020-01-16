@@ -3,6 +3,7 @@ package com.ubbdevs.studyit.exception;
 import com.ubbdevs.studyit.exception.custom.DuplicateResourceException;
 import com.ubbdevs.studyit.exception.custom.InvalidDataException;
 import com.ubbdevs.studyit.exception.custom.ResourceNotFoundException;
+import com.ubbdevs.studyit.exception.custom.UnauthorizedException;
 import com.ubbdevs.studyit.exception.dto.ExceptionDto;
 import com.ubbdevs.studyit.exception.dto.InvalidDataExceptionDto;
 import com.ubbdevs.studyit.exception.model.ExceptionHolder;
@@ -33,6 +34,13 @@ public class ExceptionHandlingController {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ExceptionDto handle(final DuplicateResourceException exception) {
         log.error("RestRuntimeException: ", exception);
+        return createException(exception.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ExceptionDto handle(final UnauthorizedException exception) {
+        log.error("UnauthorizedException: ", exception);
         return createException(exception.getMessage());
     }
 

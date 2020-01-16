@@ -2,11 +2,12 @@ package com.ubbdevs.studyit.mapper;
 
 import com.ubbdevs.studyit.dto.AttendanceCreationDto;
 import com.ubbdevs.studyit.dto.AttendanceDto;
-import com.ubbdevs.studyit.model.Attendance;
+import com.ubbdevs.studyit.model.entity.Attendance;
 
 public class AttendanceMapper {
 
-    public AttendanceDto modelToDto(final Attendance attendance){
+    public AttendanceDto modelToDto(final Attendance attendance) {
+
         return AttendanceDto.builder()
                 .id(attendance.getId())
                 .professorId(attendance.getProfessor().getId())
@@ -16,7 +17,8 @@ public class AttendanceMapper {
                 .build();
     }
 
-    public Attendance dtoToModel(final AttendanceCreationDto attendanceCreationDto){
+
+    public Attendance dtoToModel(final AttendanceCreationDto attendanceCreationDto) {
         return Attendance.builder()
                 .classNumber(attendanceCreationDto.getClassNumber())
                 .classType(attendanceCreationDto.getClassType())

@@ -1,6 +1,6 @@
 package com.ubbdevs.studyit.repository;
 
-import com.ubbdevs.studyit.model.Enrollment;
+import com.ubbdevs.studyit.model.entity.Enrollment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
     Optional<Enrollment> findByStudent_IdAndSubject_Id(Long studentId, Long subjectId);
-    List<Enrollment> findByStudent_Id(Long studentId);
+    List<Enrollment> findAllByStudent_Id(Long studentId);
     void deleteByIdAndStudent_Id(Long id, Long studentId);
 
 }

@@ -9,8 +9,9 @@ import io.swagger.annotations.ApiResponses;
 
 import java.util.List;
 
-@Api(description = "Assignment API", tags = {"Assignment"})
+@Api(description = "Assignments API", tags = {"Assignments"})
 public interface AssignmentControllerApi {
+
     @ApiOperation(value = "Create an assignment", response = AssignmentDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully created the assignment"),

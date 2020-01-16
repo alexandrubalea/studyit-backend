@@ -6,9 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum SubjectType {
-
-    OPTIONAL("Optional"),
-    MANDATORY("Mandatory");
-
-    private String name;
+    OPTIONAL,
+    MANDATORY;
 }

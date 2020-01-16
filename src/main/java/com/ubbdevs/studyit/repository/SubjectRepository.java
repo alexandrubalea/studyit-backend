@@ -1,7 +1,6 @@
 package com.ubbdevs.studyit.repository;
 
-import com.ubbdevs.studyit.model.Subject;
-import com.ubbdevs.studyit.model.enums.SubjectType;
+import com.ubbdevs.studyit.model.entity.Subject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

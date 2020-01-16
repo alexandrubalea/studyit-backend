@@ -1,6 +1,7 @@
 package com.ubbdevs.studyit.service.oauth;
 
 import com.ubbdevs.studyit.exception.model.RestRuntimeException;
+import com.ubbdevs.studyit.model.enums.Role;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
@@ -12,8 +13,10 @@ import java.util.Map;
 public class AuthorizationServiceImpl implements AuthorizationService {
 
     public long getUserId() {
-        return Long.valueOf(getDecodedDetails().get("user_id").toString());
+        return Long.parseLong(getDecodedDetails().get("user_id").toString());
     }
+
+    public Role getUserRole() { return Role.valueOf(getDecodedDetails().get("user_role").toString()); }
 
     @SuppressWarnings("unchecked")
     private static Map<String, Object> getDecodedDetails() {

@@ -1,4 +1,4 @@
-package com.ubbdevs.studyit.model;
+package com.ubbdevs.studyit.model.entity;
 
 import lombok.*;
 
@@ -11,14 +11,13 @@ import javax.persistence.Id;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Department {
+public class Location {
 
     @Id
     private Long id;
 
-    private int code;
     private String name;
-    private String abbreviation;
-    private int year;
-    private int numberOfGroups;
+    private String address;
+    private Double latitude;
+    private Double longitude;
 }

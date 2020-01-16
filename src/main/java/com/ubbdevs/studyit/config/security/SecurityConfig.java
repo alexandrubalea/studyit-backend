@@ -42,12 +42,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Reso
                 .antMatchers("/swagger.json").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/webjars/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/semester/completion-percentage").permitAll()
+                .antMatchers("/departments/**").permitAll()
+                .antMatchers("/semester/completion-percentage").permitAll()
                 .antMatchers(HttpMethod.POST, "/users/student").permitAll()
                 .antMatchers("/assignments").permitAll()
+<<<<<<< HEAD
+=======
+                .antMatchers("/professors/**").permitAll()
+                .antMatchers("/timetable/students/**").hasAuthority("STUDENT")
+                .antMatchers("/timetable/**").permitAll()
+>>>>>>> 82552ec1c2698449c92aa7611854ae486c9d96bb
                 .antMatchers("/users/student/**").hasAuthority("STUDENT")
                 .antMatchers("/users/professor/**").hasAuthority("PROFESSOR")
-                .antMatchers("/enrollments/**").hasAuthority("STUDENT")
+                .antMatchers("/students/**").hasAuthority("STUDENT")
+                .antMatchers(HttpMethod.POST, "/news").hasAuthority("PROFESSOR")
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated();

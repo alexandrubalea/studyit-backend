@@ -1,5 +1,6 @@
-package com.ubbdevs.studyit.model;
+package com.ubbdevs.studyit.model.entity;
 
+import com.ubbdevs.studyit.model.entity.User;
 import com.ubbdevs.studyit.model.enums.ProfessorDegree;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

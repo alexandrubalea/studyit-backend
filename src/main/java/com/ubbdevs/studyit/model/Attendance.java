@@ -1,5 +1,7 @@
 package com.ubbdevs.studyit.model;
 
+import com.ubbdevs.studyit.model.entity.Professor;
+import com.ubbdevs.studyit.model.entity.Subject;
 import com.ubbdevs.studyit.model.enums.ClassType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

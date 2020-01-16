@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/assignments")
@@ -23,7 +24,7 @@ public class AssignmentController implements AssignmentControllerApi {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<AssignmentDto> getListOfAllAssignments(@RequestParam Long professorId, @RequestParam Long subjectId) {
-        return assignmentService.getListOfAllAssignments(professorId,subjectId);
+    public List<AssignmentDto> getListOfAllAssignments(@RequestParam Long subjectId, @RequestParam(required = false) Long professorId) {
+        return assignmentService.getListOfAllAssignments(professorId, subjectId);
     }
 }

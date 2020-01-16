@@ -6,6 +6,7 @@ import com.ubbdevs.studyit.dto.NewsDto;
 import java.util.List;
 
 public interface NewsService {
-    List<NewsDto> getNewsBySubject(Long subjectId);
-    NewsDto createNews(NewsCreationDto newsCreationDto);
+
+    List<NewsDto> getNewsBySubjectOrAllNewsIfNoSubject(Long subjectId);
+    NewsDto postNews(NewsCreationDto newsCreationDto);
 }

@@ -2,8 +2,6 @@ package com.ubbdevs.studyit.controller;
 
 import com.ubbdevs.studyit.dto.EnrollStudentDto;
 import com.ubbdevs.studyit.dto.EnrollmentDto;
-import com.ubbdevs.studyit.dto.SubjectDto;
-import com.ubbdevs.studyit.model.Enrollment;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -11,8 +9,8 @@ import io.swagger.annotations.ApiResponses;
 
 import java.util.List;
 
-@Api(description = "Enrollment API", tags = {"Enrollment"})
-public interface EnrollmentControllerApi {
+@Api(description = "Students API", tags = {"Students"})
+public interface StudentControllerApi {
 
     @ApiOperation(value = "Enroll student at multiple subjects", response = EnrollmentDto.class)
     @ApiResponses(value = {

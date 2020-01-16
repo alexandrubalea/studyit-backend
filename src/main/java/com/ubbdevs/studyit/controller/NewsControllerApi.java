@@ -12,16 +12,17 @@ import java.util.List;
 @Api(description = "News API", tags = {"News"})
 public interface NewsControllerApi {
 
-    @ApiOperation(value = "Create news operation", response = String.class)
+    @ApiOperation(value = "Post news for a subject. A teacher can post news only for a subjects that he teaches ",
+            response = String.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully created news")
     })
-    NewsDto createNews (NewsCreationDto newsCreationDto);
+    NewsDto postNews(NewsCreationDto newsCreationDto);
 
-    @ApiOperation(value = "Get news by subject operation", response = String.class)
+    @ApiOperation(value = "Get all news for a subject ordered by creation data", response = NewsDto.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully returned news"),
+            @ApiResponse(code = 200, message = "Successfully returned all news"),
             @ApiResponse(code = 404, message = "Subject not found")
     })
-    List<NewsDto> getNewsBySubject (Long subjectId);
+    List<NewsDto> getNewsBySubject(Long subjectId);
 }

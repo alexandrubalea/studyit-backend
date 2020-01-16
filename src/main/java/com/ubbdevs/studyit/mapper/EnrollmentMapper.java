@@ -1,7 +1,7 @@
 package com.ubbdevs.studyit.mapper;
 
 import com.ubbdevs.studyit.dto.EnrollmentDto;
-import com.ubbdevs.studyit.model.Enrollment;
+import com.ubbdevs.studyit.model.entity.Enrollment;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

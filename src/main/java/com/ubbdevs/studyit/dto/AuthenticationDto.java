@@ -1,10 +1,12 @@
 package com.ubbdevs.studyit.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ubbdevs.studyit.model.enums.Role;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Data
 @Builder
@@ -28,11 +30,15 @@ public class AuthenticationDto {
 
     @NotNull
     @JsonProperty("scope")
-    private String scope;
+    private Set<String> scope;
 
     @NotNull
     @JsonProperty("user_id")
-    private String userId;
+    private Long userId;
+
+    @NotNull
+    @JsonProperty("user_role")
+    private Role userRole;
 
     @NotNull
     @JsonProperty("jti")

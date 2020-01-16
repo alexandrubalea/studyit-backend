@@ -1,19 +1,19 @@
 spring:
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
   datasource:
-    url: jdbc:mysql://localhost:3306/root
+    url: jdbc:mysql://localhost:3306/studyit_db1
     username: root
-    password: rootroot
+    password: rootrooot
     driverClassName: com.mysql.cj.jdbc.Driver
 server:
   servlet:
     context-path: /studyit/api/v1
 swagger.oauth.endpoint: http://localhost:8080/studyit/api/v1/users/token
 password.token.live.time.hours: 48
-
+authorization.server.signing.key: studyit
