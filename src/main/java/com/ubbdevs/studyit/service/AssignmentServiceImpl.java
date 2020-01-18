@@ -25,20 +25,14 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     public List<AssignmentDto> getListOfAllAssignments(Long professorId, Long subjectId) {
-        if(professorId != null) {
+        List<Assignment> assignments;
+        if (professorId != null) {
             userService.getProfessorById(professorId);
-            return assignmentRepository.findByProfessorIdAndSubjectId(professorId, subjectId)
-                    .stream()
-                    .map(assignmentMapper::modelToDto)
-                    .collect(Collectors.toList());
-        }
-        else{
-            return assignmentRepository.findBySubjectId(subjectId)
-                    .stream()
-                    .map(assignmentMapper::modelToDto)
-                    .collect(Collectors.toList());
-        }
-
+            assignments = assignmentRepository.findByProfessorIdAndSubjectId(professorId, subjectId);
+        } else
+            assignments = assignmentRepository.findBySubjectId(subjectId);
+        return assignments.stream()
+                .map(assignmentMapper::modelToDto)
+                .collect(Collectors.toList());
     }
-
 }
