@@ -5,6 +5,7 @@ import com.ubbdevs.studyit.dto.AssignmentDto;
 import com.ubbdevs.studyit.mapper.AssignmentMapper;
 import com.ubbdevs.studyit.model.entity.Assignment;
 import com.ubbdevs.studyit.repository.AssignmentRepository;
+import com.ubbdevs.studyit.service.oauth.AuthorizationServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,12 @@ public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentRepository assignmentRepository;
     private final AssignmentMapper assignmentMapper;
     private final UserService userService;
+    private final AuthorizationServiceImpl authorizationService;
 
     public AssignmentDto createAssignment(AssignmentCreationDto assignmentCreationDto) {
+        final Long professorId = authorizationService.getUserId();
         final Assignment assignment = assignmentMapper.dtoToModel(assignmentCreationDto);
+        assignment.setProfessorId(professorId);
         return assignmentMapper.modelToDto(assignmentRepository.save(assignment));
     }
 

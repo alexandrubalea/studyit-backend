@@ -15,16 +15,17 @@ public class AssignmentMapper {
                 .subjectId(assignment.getSubjectId())
                 .content(assignment.getContent())
                 .deadline(assignment.getDeadline())
+                .title(assignment.getTitle())
                 .build();
     }
 
 
     public Assignment dtoToModel(final AssignmentCreationDto assignment) {
         return Assignment.builder()
-                .professorId((assignment.getProfessorId()))
                 .subjectId(assignment.getSubjectId())
                 .content(assignment.getContent())
                 .deadline(assignment.getDeadline())
+                .title(assignment.getTitle())
                 .build();
     }
 }

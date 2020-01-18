@@ -17,4 +17,5 @@ public class AssignmentDto {
     private Long subjectId;
     private String content;
     private LocalDate deadline;
+    private String title;
 }

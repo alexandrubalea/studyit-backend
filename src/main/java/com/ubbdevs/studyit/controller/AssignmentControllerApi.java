@@ -17,7 +17,7 @@ public interface AssignmentControllerApi {
     })
     AssignmentDto createAssignment(AssignmentCreationDto assignmentCreationDto);
 
-    @ApiOperation(value = "Ge the list of all assignments", response = AssignmentDto.class)
+    @ApiOperation(value = "Get the list of all assignments", response = AssignmentDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully returned the assignments, empty list if no assignments that " +
                     "belong to the given parameters")
