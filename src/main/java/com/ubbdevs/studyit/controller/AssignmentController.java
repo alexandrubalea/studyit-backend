@@ -18,7 +18,7 @@ public class AssignmentController implements AssignmentControllerApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AssignmentDto createAssignment(final AssignmentCreationDto assignmentCreationDto) {
+    public AssignmentDto createAssignment(@RequestBody final AssignmentCreationDto assignmentCreationDto) {
         return assignmentService.createAssignment(assignmentCreationDto);
     }
 
