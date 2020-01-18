@@ -2,10 +2,7 @@ package com.ubbdevs.studyit.controller;
 
 import com.ubbdevs.studyit.dto.AssignmentCreationDto;
 import com.ubbdevs.studyit.dto.AssignmentDto;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 
 import java.util.List;
 
@@ -20,11 +17,12 @@ public interface AssignmentControllerApi {
     })
     AssignmentDto createAssignment(AssignmentCreationDto assignmentCreationDto);
 
-    @ApiOperation(value = "Ge the list of all assignments for a subject. Optionally add the professor id to get the list of"+
-            " assignments given by a professor at the subject", response = AssignmentDto.class)
+    @ApiOperation(value = "Ge the list of all assignments", response = AssignmentDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully returned the assignments, empty list if no assignments that " +
                     "belong to the given parameters")
     })
-    List<AssignmentDto> getListOfAllAssignments(Long professorId, Long subjectId);
+    List<AssignmentDto> getListOfAllAssignments(Long professorId,
+                                                @ApiParam(value = "Optional, if empty returns all the assignments " +
+                                                        "for the subject")Long subjectId);
 }
