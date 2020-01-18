@@ -7,6 +7,7 @@ import com.ubbdevs.studyit.mapper.AuthenticationMapper;
 import com.ubbdevs.studyit.mapper.GroupMapper;
 import com.ubbdevs.studyit.mapper.ProfessorMapper;
 import com.ubbdevs.studyit.mapper.StudentMapper;
+import com.ubbdevs.studyit.model.Group;
 import com.ubbdevs.studyit.model.entity.Professor;
 import com.ubbdevs.studyit.model.entity.Student;
 import com.ubbdevs.studyit.model.entity.User;
@@ -20,6 +21,8 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -38,6 +41,17 @@ public class UserServiceImpl implements UserService {
     private final GroupMapper groupMapper;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Override
+    public List<Student> getAllStudentsFromGroup(final Group group, final boolean entireGroup) {
+        final Predicate<Student> groupFilterCriteria = entireGroup ?
+                (student) -> student.getGroup().withSemigroupBelongsToGroup(group) :
+                (student) -> student.getGroup().equals(group);
+        return userRepository.findAllByRole(Role.STUDENT)
+                .stream()
+                .filter(groupFilterCriteria)
+                .collect(Collectors.toList());
+    }
 
     public AuthenticationDto createStudent(final String clientId, final StudentCreationDto studentCreationDto) {
         clientDetailsAdaptorService.validateClientId(clientId);
@@ -70,12 +84,14 @@ public class UserServiceImpl implements UserService {
         return (Professor) findUserById(professorId);
     }
 
-    public StudentDto updateStudentInformation(final StudentInformationDto studentInformationDto) {
+    public StudentDto updateStudentInformation(final UpdateStudentDto updateStudentDto) {
         final long studentId = authorizationService.getUserId();
         final Student student = getStudentById(studentId);
-        student.setFirstName(studentInformationDto.getFirstName());
-        student.setLastName(studentInformationDto.getLastName());
-        student.setGroup(groupMapper.dtoToModel(studentInformationDto.getGroup()));
+        student.setFirstName(updateStudentDto.getFirstName());
+        student.setLastName(updateStudentDto.getLastName());
+        if (updateStudentDto.getPassword() != null)
+            student.setPassword(bCryptPasswordEncoder.encode(updateStudentDto.getPassword()));
+        student.setGroup(groupMapper.dtoToModel(updateStudentDto.getGroup()));
         return studentMapper.modelToDto(userRepository.save(student));
     }
 
@@ -84,6 +100,8 @@ public class UserServiceImpl implements UserService {
         final Professor professor = getProfessorById(professorId);
         professor.setEmail(professorInformationDto.getEmail());
         professor.setWebpageUrl(professorInformationDto.getWebpageUrl());
+        if (professorInformationDto.getPassword() != null)
+            professor.setPassword(bCryptPasswordEncoder.encode(professorInformationDto.getPassword()));
         return professorMapper.modelToDto(userRepository.save(professor));
     }
 

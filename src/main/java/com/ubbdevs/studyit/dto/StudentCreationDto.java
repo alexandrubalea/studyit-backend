@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentCreationDto {
+public class    StudentCreationDto {
 
     @Pattern(regexp = "[a-z]{4}[0-9]{4}@scs.ubbcluj.ro", message = "Invalid email address. Please use your scs email " +
             "address")

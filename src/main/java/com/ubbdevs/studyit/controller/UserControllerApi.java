@@ -36,7 +36,7 @@ public interface UserControllerApi {
             @ApiResponse(code = 204, message = "Successfully updated the information"),
             @ApiResponse(code = 400, message = "Invalid data")
     })
-    void updateStudentInfo(StudentInformationDto studentInformationUpdateDto);
+    void updateStudentInfo(UpdateStudentDto studentInformationUpdateDto);
 
     @ApiOperation(value = "Update your professor account information")
     @ApiResponses(value = {

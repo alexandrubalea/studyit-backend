@@ -18,6 +18,7 @@ import com.ubbdevs.studyit.model.entity.Subject;
 import com.ubbdevs.studyit.model.entity.TimetableEntry;
 import com.ubbdevs.studyit.model.enums.ClassType;
 import com.ubbdevs.studyit.model.enums.Day;
+import com.ubbdevs.studyit.model.enums.Frequency;
 import com.ubbdevs.studyit.model.enums.Role;
 import com.ubbdevs.studyit.repository.TimetableRepository;
 import com.ubbdevs.studyit.service.oauth.AuthorizationService;
@@ -57,6 +58,16 @@ public class TimetableServiceImpl implements TimetableService {
                     throw new ResourceNotFoundException("Professor with id " + professorId + " does not teach subject " +
                             "with id " + subjectId);
                 });
+    }
+
+    @Override
+    public int checkFrequencyForClassTypeAndSubjectId(final ClassType classType, final Long subjectId) {
+        final Frequency frequency = timetableRepository.findFirstByClassTypeAndSubjectId(classType, subjectId)
+                .orElseThrow(() -> {
+                    throw new ResourceNotFoundException("Subject with id " + subjectId + " does not have class type " +
+                            classType);
+                }).getFrequency();
+        return frequency.equals(Frequency.BOTH) ? 14 : 7;
     }
 
     @Override

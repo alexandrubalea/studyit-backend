@@ -9,6 +9,7 @@ import javax.persistence.Embeddable;
 @Setter
 @Builder
 @Embeddable
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class Group {
@@ -17,5 +18,14 @@ public class Group {
     private int year;
     private int groupNumber;
     private int semiGroup;
+
+    public boolean isOnlyGroup() {
+        return semiGroup == 0;
+    }
+
+    public boolean withSemigroupBelongsToGroup(final Group other) {
+        return this.departmentCode == other.getDepartmentCode() && this.year == other.getYear() &&
+                this.groupNumber == other.getGroupNumber();
+    }
 
 }

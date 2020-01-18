@@ -20,6 +20,8 @@ public class ProfessorInformationDto {
     @NotNull(message = "You must provide an email address")
     private String email;
 
+    private String password;
+
     //TODO validate this
     @NotNull(message = "You must provide an url")
     private String webpageUrl;

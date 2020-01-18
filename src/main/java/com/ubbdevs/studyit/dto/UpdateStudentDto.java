@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentInformationDto {
+public class UpdateStudentDto {
 
     // TODO: pattern to capitalize the first letter of first name
     @Size(min=4, max=32, message = "Invalid firstName size")
@@ -24,6 +24,8 @@ public class StudentInformationDto {
     @Size(min=4, max=32, message = "Invalid lastName size")
     @NotNull(message = "You must provide a last name")
     private String lastName;
+
+    private String password;
 
     // pay attention to regex group digit [1-7]
     @Pattern(regexp = "[1-9][1-3][1-7]/[1-2]", message = "Invalid group. The group should match the following pattern: " +

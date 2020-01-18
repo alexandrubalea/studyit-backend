@@ -5,6 +5,7 @@ import com.ubbdevs.studyit.model.SubjectAndClassType;
 import com.ubbdevs.studyit.model.entity.Professor;
 import com.ubbdevs.studyit.model.entity.Subject;
 import com.ubbdevs.studyit.model.entity.TimetableEntry;
+import com.ubbdevs.studyit.model.enums.ClassType;
 import com.ubbdevs.studyit.model.enums.Day;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,8 @@ import java.util.Optional;
 public interface TimetableRepository extends JpaRepository<TimetableEntry, Long> {
 
     Optional<TimetableEntry> findFirstByProfessor_IdAndSubject_Id(Long professorId, Long subjectId);
+
+    Optional<TimetableEntry> findFirstByClassTypeAndSubjectId(ClassType classType, Long subjectId);
 
     List<TimetableEntry> getByFormationIn(Collection formations);
 

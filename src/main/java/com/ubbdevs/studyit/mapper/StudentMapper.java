@@ -2,6 +2,7 @@ package com.ubbdevs.studyit.mapper;
 
 import com.ubbdevs.studyit.dto.StudentCreationDto;
 import com.ubbdevs.studyit.dto.StudentDto;
+import com.ubbdevs.studyit.dto.StudentNameDto;
 import com.ubbdevs.studyit.model.entity.Student;
 import com.ubbdevs.studyit.model.enums.Role;
 import lombok.AllArgsConstructor;

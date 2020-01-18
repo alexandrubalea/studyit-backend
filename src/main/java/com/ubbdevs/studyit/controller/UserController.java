@@ -1,11 +1,9 @@
 package com.ubbdevs.studyit.controller;
 
 import com.ubbdevs.studyit.dto.*;
-import com.ubbdevs.studyit.mapper.ProfessorMapper;
 import com.ubbdevs.studyit.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,8 +30,8 @@ public class UserController implements UserControllerApi {
 
     @PutMapping("/student/me")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateStudentInfo(@Valid @RequestBody final StudentInformationDto studentInformationDto) {
-        userService.updateStudentInformation(studentInformationDto);
+    public void updateStudentInfo(@Valid @RequestBody final UpdateStudentDto updateStudentDto) {
+        userService.updateStudentInformation(updateStudentDto);
     }
 
     @GetMapping("/professor/me")

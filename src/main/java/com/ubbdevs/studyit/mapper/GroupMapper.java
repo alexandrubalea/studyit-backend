@@ -12,12 +12,14 @@ public class GroupMapper {
     private final GroupEncoder groupEncoder;
 
     public Group dtoToModel(final String group) {
-        return Group.builder()
+        final Group mappedGroup = Group.builder()
                 .departmentCode(groupEncoder.getDepartmentCode(group))
                 .year(groupEncoder.getYear(group))
                 .groupNumber(groupEncoder.getGroup(group))
-                .semiGroup(groupEncoder.getSemiGroup(group))
                 .build();
+        if (group.length() == 5)
+            mappedGroup.setSemiGroup(groupEncoder.getSemiGroup(group));
+        return mappedGroup;
     }
 
     public String modelToDto(final Group group) {
